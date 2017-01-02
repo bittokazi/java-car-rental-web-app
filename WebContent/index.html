@@ -1,0 +1,81 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Car Rental Services</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link href='http://fonts.googleapis.com/css?family=Julius+Sans+One' rel='stylesheet' type='text/css'>
+<link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+<!--slider-->
+<link href="css/camera.css" rel="stylesheet" type="text/css" media="all" />
+    <script type='text/javascript' src='js/jquery.min.js'></script>
+    <script type='text/javascript' src='js/jquery.mobile.customized.min.js'></script>
+    <script type='text/javascript' src='js/jquery.easing.1.3.js'></script> 
+    <script type='text/javascript' src='js/camera.min.js'></script> 
+    
+    <script>
+		jQuery(function(){
+			
+			jQuery('#camera_wrap_1').camera({
+				thumbnails: true
+			});
+
+			jQuery('#camera_wrap_2').camera({
+				height: '400px',
+				loader: 'bar',
+				pagination: false,
+				thumbnails: true
+			});
+		});
+	</script>
+</head>
+<body>
+<!--start header-->
+<div class="h_bg">
+<div class="wrap">
+<div class="wrapper">
+<div class="header">
+	<div class="logo">
+		 <a href="/car_rental" style="color:white; text-decoration:none; font-size:60px">CAR-RENTAL</a>
+	</div>
+	<div class="cssmenu">
+	<ul>
+	   <li class="active"><a href="/car_rental"><span>Home</span></a></li>
+	      <li><a href="/car_rental/registration?select=rider"><span>Ride</span></a></li>
+	   <li class="has-sub"><a href="/car_rental/registration?select=driver"><span>Drive</span></a></li>
+	   <li class="last"><a href="/car_rental/dashboard/login"><span>Login</span></a></li>
+	 <div class="clear"></div>
+	 </ul>
+	</div>
+	<div class="clear"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- start slider -->
+<div class="slider_bg">
+<div class="wrap">
+<div class="wrapper">
+	<div class="slider">
+	<!-- #camera_wrap_1 -->
+	<div class="fluid_container">
+        <div class="camera_wrap camera_azure_skin" id="camera_wrap_1">
+            <div data-thumb="images/thumbs/slider1.jpg" data-src="images/slider/slider1.jpg">
+            </div>
+            <div data-thumb="images/thumbs/slider2.jpg" data-src="images/slider/slider2.jpg">
+            </div>
+            <div data-thumb="images/thumbs/slider3.jpg" data-src="images/slider/slider3.jpg">
+            </div>
+            <div data-thumb="images/thumbs/slider4.jpg" data-src="images/slider/slider4.jpg">
+            </div>            
+             </div><!-- #camera_wrap_1 -->
+         <div class="clear"></div>
+	</div>
+	<!-- end #camera_wrap_1 -->
+	<div class="clear"></div>
+	</div>
+</div>
+</div>
+</div>
+</body>
+</html>
