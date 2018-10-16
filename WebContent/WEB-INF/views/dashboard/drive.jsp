@@ -10,7 +10,7 @@
 <style>.tb { border: 1px solid black; padding: 10px; }</style>
 
 
-<script src="../js/jquery-1.11.3.js"></script>
+<script src="/js/jquery-1.11.3.js"></script>
 
 
 <style>
