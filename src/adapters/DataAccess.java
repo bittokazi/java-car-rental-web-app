@@ -8,11 +8,11 @@ import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
 
 public class DataAccess {
-	private String host = "localhost";
+	private String host = System.getenv("OPENSHIFT_MYSQL_DB_HOST");
 	private int port = 3306;
-	private String database = "car_rental";
-	private String username = "root";
-	private String password = "";
+	private String database = System.getenv("OPENSHIFT_MYSQL_DB_NAME");
+	private String username = System.getenv("OPENSHIFT_MYSQL_DB_USERNAME");
+	private String password = System.getenv("OPENSHIFT_MYSQL_DB_PASSWORD");
 	private String connectionString;
 	
 	private Connection connection;
