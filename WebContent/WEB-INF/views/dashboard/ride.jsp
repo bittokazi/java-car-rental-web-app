@@ -240,7 +240,7 @@ function get_info() {
 	document.getElementById("end").innerHTML="<option value=\""+to+"\">"+to+"</option>";
 	$.ajax({
 				type: "POST",
-				url: "http://localhost:8080/car_rental/dashboard/ride?action=query",
+				url: "ride?action=query",
 				data: { 
 			        'from': from, 
 			        'to': to
@@ -326,7 +326,7 @@ function confirm_invoice() {
 	
 	$.ajax({
 		type: "POST",
-		url: "http://localhost:8080/car_rental/dashboard/invoice?action=add_invoice",
+		url: "invoice?action=add_invoice",
 		data: { 
 	        'from': from, 
 	        'to': to,
