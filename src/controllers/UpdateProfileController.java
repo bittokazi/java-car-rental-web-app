@@ -3,7 +3,9 @@ package controllers;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+
+import com.google.gson.Gson;
 
 import adapters.CarDriverAdapter;
 import adapters.UserAdapter;
@@ -35,10 +39,16 @@ public class UpdateProfileController extends HttpServlet {
 				UserAdapter ua=new UserAdapter();
 				User user = new User();
 				user=ua.select("SELECT * FROM user WHERE username='"+ac.get_username(request)+"' ORDER BY id DESC");
-				request.setAttribute("user", user);
-
-				RequestDispatcher disp = request.getRequestDispatcher("/WEB-INF/views/dashboard/update_profile.jsp");
-				disp.forward(request, response);
+				
+				if(request.getHeader("type")!=null && request.getHeader("type").contains("rest")) {
+					response.setContentType("application/json");
+					PrintWriter out = response.getWriter();
+					out.print(new Gson().toJson(user));
+				} else {
+					request.setAttribute("user", user);
+					RequestDispatcher disp = request.getRequestDispatcher("/WEB-INF/views/dashboard/update_profile.jsp");
+					disp.forward(request, response);
+				}
 				
 
 			}

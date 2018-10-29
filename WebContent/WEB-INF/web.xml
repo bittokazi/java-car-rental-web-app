@@ -116,6 +116,14 @@
 		<description></description>
 		<servlet-class>controllers.UserList</servlet-class>
 	</servlet>
+	
+	<servlet>
+		<servlet-name>TripStateChangeController</servlet-name>
+		<display-name>TripStateChangeController</display-name>
+		<description></description>
+		<servlet-class>controllers.TripStateChangeController</servlet-class>
+	</servlet>
+	
 	<servlet-mapping>
 		<servlet-name>login</servlet-name>
 		<url-pattern>/dashboard/login</url-pattern>
@@ -191,6 +199,10 @@
 	<servlet-mapping>
 		<servlet-name>UserList</servlet-name>
 		<url-pattern>/dashboard/userlist</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>TripStateChangeController</servlet-name>
+		<url-pattern>/dashboard/trip-state</url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
