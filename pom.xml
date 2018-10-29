@@ -68,6 +68,7 @@
 							<goal>copy</goal>
 						</goals>
 						<configuration>
+              <failOnMissingWebXml>false</failOnMissingWebXml>
 							<artifactItems>
 								<artifactItem>
 									<groupId>com.github.jsimone</groupId>
