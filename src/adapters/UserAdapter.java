@@ -8,7 +8,7 @@ import models.User;
 public class UserAdapter {
 	public void insert(User user)
 	{
-		String sql = "INSERT INTO public.user VALUES (null, '"+user.getUsername()+"', '"+user.getPassword()+"', '"+user.getName()+"', '"+user.getDob()+"','"+user.getCell()+"','"+user.getEmail()+"','"+user.getRole()+"','"+user.getImage()+"','"+user.getGender()+"')";
+		String sql = "INSERT INTO public.user VALUES (DEFAULT, '"+user.getUsername()+"', '"+user.getPassword()+"', '"+user.getName()+"', '"+user.getDob()+"','"+user.getCell()+"','"+user.getEmail()+"','"+user.getRole()+"','"+user.getImage()+"','"+user.getGender()+"')";
 		DataAccess da = new DataAccess();
 		da.executeQuery(sql);
 	}
