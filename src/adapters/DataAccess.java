@@ -19,7 +19,7 @@ public class DataAccess {
 	private Statement statement;
 
 	public DataAccess() {
-		this.connectionString = "jdbc:mysql://" + this.host + ":" + this.port + "/" + this.database;
+		this.connectionString = "jdbc:postgresql://" + this.host + ":" + this.port + "/" + this.database;
 		try {
 			Class.forName("org.postgresql.Driver");
 			this.connection = (Connection) DriverManager.getConnection(this.connectionString, this.username, this.password);
@@ -43,9 +43,9 @@ public class DataAccess {
 		this.username = username;
 		this.password = password;
 
-		this.connectionString = "jdbc:mysql://" + this.host + ":" + this.port + "/" + this.database;
+		this.connectionString = "jdbc:postgresql://" + this.host + ":" + this.port + "/" + this.database;
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("org.postgresql.Driver");
 			this.connection = (Connection) DriverManager.getConnection(this.connectionString, this.username, this.password);
 			this.statement = (Statement) this.connection.createStatement();
 		}
