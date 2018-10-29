@@ -123,6 +123,8 @@ CREATE TABLE "users" (
 --
 
 ALTER TABLE "user" ADD UNIQUE (username, email);
+
+INSERT INTO public.user (username, password, name, dob, cell, email, role, image, gender) VALUES('administrator', 'password', 'Bitto Kazi', '01-01-1995', '01715715431', 'admin@gmail.com', 'administrator', 'rider.jpg', 'male');
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
