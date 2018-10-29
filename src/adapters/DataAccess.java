@@ -9,7 +9,7 @@ import com.mysql.jdbc.Statement;
 
 public class DataAccess {
 	private String host = System.getenv("OPENSHIFT_MYSQL_DB_HOST");
-	private String port = System.getenv("OPENSHIFT_MYSQL_DB_PORT");
+	private int port = Integer.parseInt(System.getenv("OPENSHIFT_MYSQL_DB_PORT"));
 	private String database = System.getenv("OPENSHIFT_MYSQL_DB_NAME");
 	private String username = System.getenv("OPENSHIFT_MYSQL_DB_USERNAME");
 	private String password = System.getenv("OPENSHIFT_MYSQL_DB_PASSWORD");
