@@ -7,7 +7,7 @@ public class InvoiceAdapter {
 	
 	public int insert(Invoice invoice)
 	{
-		String sql = "INSERT INTO invoice VALUES (null, '"+invoice.getUid()+"',' "+invoice.getType()+"','"+invoice.getRider_username()+"', '"+invoice.getDriver_username()+"','"+invoice.getFrom_place()+"','"+invoice.getTo_place()+"','"+invoice.getPayment_status()+"','"+invoice.getDelivery_status()+"','"+invoice.getDistance()+"','"+invoice.getCost()+"','"+invoice.getAddress()+"','"+invoice.getDate()+"','"+invoice.getTime()+"','"+invoice.getCreate_date()+"', '"+invoice.getName()+"', '"+invoice.getCell()+"', '"+invoice.getEmail()+"')";
+		String sql = "INSERT INTO invoice VALUES (DEFAULT, '"+invoice.getUid()+"',' "+invoice.getType()+"','"+invoice.getRider_username()+"', '"+invoice.getDriver_username()+"','"+invoice.getFrom_place()+"','"+invoice.getTo_place()+"','"+invoice.getPayment_status()+"','"+invoice.getDelivery_status()+"','"+invoice.getDistance()+"','"+invoice.getCost()+"','"+invoice.getAddress()+"','"+invoice.getDate()+"','"+invoice.getTime()+"','"+invoice.getCreate_date()+"', '"+invoice.getName()+"', '"+invoice.getCell()+"', '"+invoice.getEmail()+"')";
 		DataAccess da = new DataAccess();
 		return da.executeQuery(sql);
 	}

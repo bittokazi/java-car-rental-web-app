@@ -11,7 +11,7 @@ public class CarDriverAdapter {
 	
 	public void insert(CarDriver driver)
 	{
-		String sql = "INSERT INTO driver_info VALUES (null, '"+driver.getUsername()+"', '"+driver.getStatus()+"', '"+driver.getLicense_id()+"', '"+driver.getCar_type()+"')";
+		String sql = "INSERT INTO driver_info VALUES (DEFAULT, '"+driver.getUsername()+"', '"+driver.getStatus()+"', '"+driver.getLicense_id()+"', '"+driver.getCar_type()+"')";
 		DataAccess da = new DataAccess();
 		da.executeQuery(sql);
 	}

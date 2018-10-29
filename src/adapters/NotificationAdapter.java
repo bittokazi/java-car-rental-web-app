@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class NotificationAdapter {
 	public void insert(Notification nf)
 	{
-		String sql = "INSERT INTO notification VALUES (null, '"+nf.getUsername()+"', '"+nf.getDescription()+"', '"+nf.getDate()+"', '"+nf.getTime()+"')";
+		String sql = "INSERT INTO notification VALUES (DEFAULT, '"+nf.getUsername()+"', '"+nf.getDescription()+"', '"+nf.getDate()+"', '"+nf.getTime()+"')";
 		DataAccess da = new DataAccess();
 		da.executeQuery(sql);
 	}

@@ -9,7 +9,7 @@ public class CostAdapter {
 	
 	public void insert(Cost cost)
 	{
-		String sql = "INSERT INTO cost VALUES (null, '"+cost.getType()+"', '"+cost.getCost()+"', '"+cost.getName()+"')";
+		String sql = "INSERT INTO cost VALUES (DEFAULT, '"+cost.getType()+"', '"+cost.getCost()+"', '"+cost.getName()+"')";
 		DataAccess da = new DataAccess();
 		da.executeQuery(sql);
 	}
