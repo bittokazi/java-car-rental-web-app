@@ -105,7 +105,7 @@ CREATE TABLE "places" (
 -- Table structure for table "user"
 --
 
-CREATE TABLE "user" (
+CREATE TABLE "users" (
   "id" SERIAL NOT NULL PRIMARY KEY,
   "username" varchar(100) NOT NULL,
   "password" varchar(100) NOT NULL,

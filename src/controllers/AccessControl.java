@@ -10,7 +10,7 @@ import models.User;
 public class AccessControl {
 	public boolean login_check(HttpServletRequest request ,String un, String pw) {
 		UserAdapter ua=new UserAdapter();
-		String sql = "SELECT * FROM user WHERE username='"+un+"' AND password='"+pw+"'";
+		String sql = "SELECT * FROM public.user WHERE username='"+un+"' AND password='"+pw+"'";
 		User user=new User();
 		user=ua.select(sql);
 		if(user!=null) {

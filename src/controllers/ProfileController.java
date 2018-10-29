@@ -31,7 +31,7 @@ public class ProfileController extends HttpServlet {
 						
 						UserAdapter ua=new UserAdapter();
 						User user = new User();
-						user=ua.select("SELECT * FROM user WHERE username='"+request.getParameter("un")+"' ORDER BY id DESC");
+						user=ua.select("SELECT * FROM public.user WHERE username='"+request.getParameter("un")+"' ORDER BY id DESC");
 						request.setAttribute("user", user);
 
 						RequestDispatcher disp = request.getRequestDispatcher("/WEB-INF/views/dashboard/profile.jsp");

@@ -28,7 +28,7 @@ public class UserList extends HttpServlet {
 
 					UserAdapter ua=new UserAdapter();
 					ArrayList<User> users = new ArrayList<User>();
-					users=ua.select_users("SELECT * FROM user ORDER BY id DESC");
+					users=ua.select_users("SELECT * FROM public.user ORDER BY id DESC");
 					request.setAttribute("users", users);
 
 
@@ -56,7 +56,7 @@ public class UserList extends HttpServlet {
 					if(request.getParameter("action").equals("search") && !request.getParameter("value").equals("")) {
 						UserAdapter ua=new UserAdapter();
 						ArrayList<User> users = new ArrayList<User>();
-						users=ua.select_users("SELECT * FROM user WHERE "+request.getParameter("type")+" LIKE'%"+request.getParameter("value")+"%' ORDER BY id DESC");
+						users=ua.select_users("SELECT * FROM public.user WHERE "+request.getParameter("type")+" LIKE'%"+request.getParameter("value")+"%' ORDER BY id DESC");
 						request.setAttribute("users", users);
 
 

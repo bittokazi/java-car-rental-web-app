@@ -31,7 +31,7 @@ public class confirm_reg extends HttpServlet {
             throws ServletException, IOException {
     	UserAdapter ua1=new UserAdapter();
     	User user1=new User();
-    	user1=ua1.select("SELECT * FROM user WHERE username='"+request.getParameter("un")+"' OR email='"+request.getParameter("email")+"'");
+    	user1=ua1.select("SELECT * FROM public.user WHERE username='"+request.getParameter("un")+"' OR email='"+request.getParameter("email")+"'");
     	if(user1!=null) {
     		PrintWriter out = response.getWriter();
 			out.print("exist");
