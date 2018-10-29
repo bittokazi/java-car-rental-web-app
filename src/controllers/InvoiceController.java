@@ -2,6 +2,8 @@ package controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,8 +11,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.firebase.messaging.FirebaseMessagingException;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+
 import adapters.InvoiceAdapter;
+import adapters.UserAdapter;
 import models.Invoice;
+import models.TripRequestNotification;
+import models.User;
+import util.DuploMap;
+import util.FCMNotification;
+import util.GooglePlacesServices;
 
 public class InvoiceController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -60,9 +72,42 @@ public class InvoiceController extends HttpServlet {
 						invoice.setName(request.getParameter("name"));
 						invoice.setCell(request.getParameter("cell"));
 						invoice.setEmail(request.getParameter("email"));
-						ia.insert(invoice);
-						PrintWriter out = response.getWriter();
-						out.print("ok");
+						long tripId = Long.parseLong(String.valueOf(ia.insert(invoice)));
+						
+						UserAdapter ua=new UserAdapter();
+						User user = new User();
+						user=ua.select("SELECT * FROM user WHERE username='"+ac.get_username(request)+"' ORDER BY id DESC");
+
+						
+					
+						
+						TripRequestNotification tripRequestNotification = new GooglePlacesServices().getFromAndTo(request.getParameter("from"), request.getParameter("to"));
+						tripRequestNotification.setId(String.valueOf(0));
+						tripRequestNotification.setTripId(String.valueOf(tripId));
+						tripRequestNotification.setCustomerId(String.valueOf(user.getId()));
+						tripRequestNotification.setPickUpStr(request.getParameter("from"));
+						tripRequestNotification.setDestinationStr(request.getParameter("to"));
+						
+						System.out.println(new Gson().toJson(tripRequestNotification));
+						
+						try {
+							FCMNotification.sendTnotification(getServletContext(), DuploMap.convert(new Gson().toJson(tripRequestNotification)));
+						} catch (JsonSyntaxException | FirebaseMessagingException e) {
+							e.printStackTrace();
+						}
+						
+						if(request.getHeader("type")!=null &&  request.getHeader("type").contains("rest")) {
+							response.setContentType("application/json");
+							Map<String, Object> rest = new HashMap<>();
+							PrintWriter out = response.getWriter();
+							rest.put("success", true);
+							rest.put("tripId", tripId);
+							rest.put("message", "Trip Request Successful");
+							out.print(new Gson().toJson(rest));
+						} else {
+							PrintWriter out = response.getWriter();
+							out.print("ok");
+						}
 					}
 				}
 			}

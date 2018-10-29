@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import models.Invoice;
 public class InvoiceAdapter {
 	
-	public void insert(Invoice invoice)
+	public int insert(Invoice invoice)
 	{
 		String sql = "INSERT INTO invoice VALUES (null, '"+invoice.getUid()+"',' "+invoice.getType()+"','"+invoice.getRider_username()+"', '"+invoice.getDriver_username()+"','"+invoice.getFrom_place()+"','"+invoice.getTo_place()+"','"+invoice.getPayment_status()+"','"+invoice.getDelivery_status()+"','"+invoice.getDistance()+"','"+invoice.getCost()+"','"+invoice.getAddress()+"','"+invoice.getDate()+"','"+invoice.getTime()+"','"+invoice.getCreate_date()+"', '"+invoice.getName()+"', '"+invoice.getCell()+"', '"+invoice.getEmail()+"')";
 		DataAccess da = new DataAccess();
-		da.executeQuery(sql);
+		return da.executeQuery(sql);
 	}
 	
 	/*public void update(User user)
