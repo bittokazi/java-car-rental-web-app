@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 
 public class FCMNotification {
 	public static FirebaseApp initFirebase(ServletContext context) throws IOException {
+			System.out.println(System.getenv("OPENSHIFT_FCM_CONFIG_CR"));
 			InputStream serviceAccount = new ByteArrayInputStream(System.getenv("OPENSHIFT_FCM_CONFIG_CR").getBytes());
 			FirebaseOptions options = new FirebaseOptions.Builder()
 			    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
