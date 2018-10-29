@@ -1,5 +1,6 @@
 package util;
 
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,7 +20,7 @@ import com.google.gson.Gson;
 
 public class FCMNotification {
 	public static FirebaseApp initFirebase(ServletContext context) throws IOException {
-			InputStream serviceAccount =context.getResourceAsStream(System.getenv("OPENSHIFT_FCM_CONFIG_CR"));
+			InputStream serviceAccount = new ByteArrayInputStream(System.getenv("OPENSHIFT_FCM_CONFIG_CR").getBytes());
 			FirebaseOptions options = new FirebaseOptions.Builder()
 			    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
 			    .setDatabaseUrl("https://car-rental-141815.firebaseio.com/")
