@@ -74,7 +74,7 @@ public class confirm_reg extends HttpServlet {
 	                        		CarDriver cardriver=new CarDriver();
 	                        		cardriver.setCar_type(request.getParameter("car_type"));
 	                        		cardriver.setLicense_id(request.getParameter("l"));
-	                        		cardriver.setStatus("pending");
+	                        		cardriver.setStatus("accept");
 	                        		cardriver.setUsername(user.getUsername());
 	                        		cda.insert(cardriver);
 	                        	}
