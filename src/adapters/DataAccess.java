@@ -76,7 +76,7 @@ public class DataAccess {
 
 	public int executeQuery(String sql) {
 		try {
-			return this.statement.executeUpdate(sql);
+			return this.statement.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
 		}
 		catch(SQLException ex) {
 			ex.printStackTrace();
