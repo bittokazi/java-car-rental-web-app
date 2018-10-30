@@ -40,7 +40,7 @@ public class TripStateChangeController extends HttpServlet {
 		InvoiceAdapter ia=new InvoiceAdapter();
 		invoice=ia.get(Integer.parseInt(request.getParameter("tripId")));
 		
-		if(!invoice.getDriver_username().equals("")) {
+		if(status.contains("accept") && !invoice.getDriver_username().equals("")) {
 			if(request.getHeader("type")!=null &&  request.getHeader("type").contains("rest")) {
 				response.setStatus(422);
 				response.setContentType("application/json");
