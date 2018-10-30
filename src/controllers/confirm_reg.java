@@ -3,7 +3,9 @@ package controllers;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.ServletException;
@@ -13,6 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+
+import com.google.gson.Gson;
 
 import adapters.CarDriverAdapter;
 import adapters.UserAdapter;
@@ -31,6 +35,7 @@ public class confirm_reg extends HttpServlet {
             throws ServletException, IOException {
     	UserAdapter ua1=new UserAdapter();
     	User user1=new User();
+    	Map<String, Object> rest = new HashMap<>();
     	user1=ua1.select("SELECT * FROM public.user WHERE username='"+request.getParameter("un")+"' OR email='"+request.getParameter("email")+"'");
     	if(user1!=null) {
     		PrintWriter out = response.getWriter();
@@ -54,7 +59,7 @@ public class confirm_reg extends HttpServlet {
 	                        	UUID uid = UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d"); 
 	                        	String fname=uid.randomUUID().toString();
 								user.setName(request.getParameter("n"));
-	                        	user.setUsername(request.getParameter("un"));
+	                        	user.setUsername(UUID.randomUUID().toString());
 	                        	user.setPassword(request.getParameter("pw"));
 	                        	user.setEmail(request.getParameter("email"));
 	                        	user.setCell(request.getParameter("phone"));
@@ -76,21 +81,55 @@ public class confirm_reg extends HttpServlet {
 	                        	String relativeWebPath = "/uploads";
 	                        	String absoluteFilePath = getServletContext().getRealPath(relativeWebPath);
 								item.write( new File(absoluteFilePath, user.getUsername()+"."+ext12[ext12.length-1]));
-								PrintWriter out = response.getWriter();
-								out.print("ok");
+								
+								
+								if(request.getHeader("type")!=null &&  request.getHeader("type").contains("rest")) {
+									response.setContentType("application/json");
+									PrintWriter out = response.getWriter();
+									rest.put("success", true);
+									rest.put("message", "ok");
+									out.print(new Gson().toJson(rest));
+								} else {
+									PrintWriter out = response.getWriter();
+									out.print("ok");
+								}
 	                        }
 	                    }
 	                }
 	           
 	               
 	            } catch (Exception ex) {
-	            	PrintWriter out = response.getWriter();
-					out.print("error");
+	            	
+	            	if(request.getHeader("type")!=null &&  request.getHeader("type").contains("rest")) {
+	            		response.setStatus(422);
+						response.setContentType("application/json");
+						PrintWriter out = response.getWriter();
+						rest.put("success", false);
+						rest.put("message", "error");
+						out.print(new Gson().toJson(rest));
+					} else {
+						PrintWriter out = response.getWriter();
+						out.print("error");
+					}
+	            	
+	            	
 	            }          
 	         
 	        }else{
-	        	PrintWriter out = response.getWriter();
-				out.print("error");
+	        	
+	        	if(request.getHeader("type")!=null &&  request.getHeader("type").contains("rest")) {
+	        		response.setStatus(422);
+					response.setContentType("application/json");
+					PrintWriter out = response.getWriter();
+					rest.put("success", false);
+					rest.put("message", "error");
+					out.print(new Gson().toJson(rest));
+				} else {
+					PrintWriter out = response.getWriter();
+					out.print("error");
+				}
+            	
+	        	
 	        }
     	}
 
