@@ -76,7 +76,15 @@ public class DataAccess {
 
 	public int executeQuery(String sql) {
 		try {
-			return this.statement.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
+			this.statement.executeUpdate(sql);
+			try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+	            if (generatedKeys.next()) {
+	            		return (int) generatedKeys.getLong(1);
+	            }
+	            else {
+	                throw new SQLException("Creating Invoice failed, no ID obtained.");
+	            }
+	        }
 		}
 		catch(SQLException ex) {
 			ex.printStackTrace();
