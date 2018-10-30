@@ -71,6 +71,8 @@ public class DataAccess {
 		catch(Exception ex) {
 			ex.printStackTrace();
 			return null;
+		} finally {
+			finalize();
 		}
 	}
 
@@ -87,6 +89,8 @@ public class DataAccess {
 		catch(Exception ex) {
 			ex.printStackTrace();
 			return 0;
+		} finally {
+			finalize();
 		}
 	}
 
