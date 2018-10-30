@@ -4,48 +4,48 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import models.Invoice;
 public class InvoiceAdapter {
-	
+
 	public int insert(Invoice invoice)
 	{
 		String sql = "INSERT INTO invoice VALUES (DEFAULT, '"+invoice.getUid()+"',' "+invoice.getType()+"','"+invoice.getRider_username()+"', '"+invoice.getDriver_username()+"','"+invoice.getFrom_place()+"','"+invoice.getTo_place()+"','"+invoice.getPayment_status()+"','"+invoice.getDelivery_status()+"','"+invoice.getDistance()+"','"+invoice.getCost()+"','"+invoice.getAddress()+"','"+invoice.getDate()+"','"+invoice.getTime()+"','"+invoice.getCreate_date()+"', '"+invoice.getName()+"', '"+invoice.getCell()+"', '"+invoice.getEmail()+"') RETURNING id";
-		DataAccess da = new DataAccess();
+		DataAccess da = DataAccess.Singleton();
 		return da.executeQuery(sql);
 	}
-	
+
 	/*public void update(User user)
 	{
 		String sql = "UPDATE user SET name='"+user.getName()+"', salary="+emp.getSalary()+", email='"+emp.getEmail()+"' WHERE id="+emp.getId();
-		DataAccess da = new DataAccess();
+		DataAccess da = DataAccess.Singleton();
 		da.executeQuery(sql);
 	}*/
-	
+
 	public void accept_ride(Invoice invoice, String driver) {
 		String sql = "UPDATE invoice SET driver_username='"+driver+"', delivery_status='accepted' WHERE id='"+invoice.getId()+"'";
-		DataAccess da = new DataAccess();
+		DataAccess da = DataAccess.Singleton();
 		da.executeQuery(sql);
 	}
 	public void done_ride(Invoice invoice, String driver) {
 		String sql = "UPDATE invoice SET payment_status='accepted' WHERE id='"+invoice.getId()+"' AND driver_username='"+driver+"'";
-		DataAccess da = new DataAccess();
+		DataAccess da = DataAccess.Singleton();
 		da.executeQuery(sql);
 	}
 	public void delete(String sql)
 	{
-		DataAccess da = new DataAccess();
+		DataAccess da = DataAccess.Singleton();
 		da.executeQuery(sql);
 	}
-	
+
 	public ArrayList<Invoice> getAll()
 	{
 		String sql = "SELECT * FROM invoice";
-		DataAccess da = new DataAccess();
+		DataAccess da = DataAccess.Singleton();
 		ResultSet rs = da.getResultSet(sql);
 		ArrayList<Invoice> invoicelist = new ArrayList<Invoice>();
 		try {
 			while(rs.next())
 			{
-				
-				
+
+
 				Invoice invoice = new Invoice();
 				invoice.setId(Integer.parseInt(rs.getString("id")));
 				invoice.setUserid(rs.getString("uid"));
@@ -62,35 +62,35 @@ public class InvoiceAdapter {
                 invoice.setDate(rs.getString("date"));
                 invoice.setTime(rs.getString("time"));
 
-                
 
-				
-	
-				
+
+
+
+
 				invoicelist.add(invoice);
 			}
 			return invoicelist;
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
-	
+
 	public Invoice get(int id)
 	{
 		String sql = "SELECT * FROM invoice WHERE id="+id;
-		DataAccess da = new DataAccess();
+		DataAccess da = DataAccess.Singleton();
 		ResultSet rs = da.getResultSet(sql);
-		
+
 		Invoice invoice = new Invoice();
 
-		
+
 		try {
 			if(rs.next())
 			{
-				
-				
+
+
 				invoice.setId(Integer.parseInt(rs.getString("id")));
 				invoice.setUserid(rs.getString("uid"));
 				invoice.setType(rs.getString("type"));
@@ -112,25 +112,25 @@ public class InvoiceAdapter {
 
 
 
-                
 
-				
-				
+
+
+
 				return invoice;
 			}
 			else
 			{
 				return null;
 			}
-			
-			
+
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
 	public Invoice select(String sql) {
-		DataAccess da = new DataAccess();
+		DataAccess da = DataAccess.Singleton();
 		ResultSet rs = da.getResultSet(sql);
 		Invoice invoice = new  Invoice();
 		try {
@@ -156,7 +156,7 @@ public class InvoiceAdapter {
 				invoice.setEmail(rs.getString("email"));
 
 
-                
+
                 return invoice;
 			}
 			else
@@ -171,10 +171,10 @@ public class InvoiceAdapter {
 
 
 
-	
+
 	public ArrayList<Invoice> select_query(String sql)
 	{
-		DataAccess da = new DataAccess();
+		DataAccess da = DataAccess.Singleton();
 		ResultSet rs = da.getResultSet(sql);
 		ArrayList<Invoice> invoicelist = new ArrayList<Invoice>();
 		try {
@@ -203,7 +203,7 @@ public class InvoiceAdapter {
 				invoicelist.add(invoice);
 			}
 			return invoicelist;
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

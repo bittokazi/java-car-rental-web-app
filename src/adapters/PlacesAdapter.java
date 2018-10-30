@@ -10,27 +10,27 @@ public class PlacesAdapter {
 	public void insert(Places place)
 	{
 		String sql = "INSERT INTO places VALUES (DEFAULT, '"+place.getName()+"')";
-		DataAccess da = new DataAccess();
+		DataAccess da = DataAccess.Singleton();
 		da.executeQuery(sql);
 	}
 
 	public void update(Places place)
 	{
 		String sql = "UPDATE places SET name='"+place.getName()+"' WHERE id="+place.getId();
-		DataAccess da = new DataAccess();
+		DataAccess da = DataAccess.Singleton();
 		da.executeQuery(sql);
 	}
 	public void delete(int id)
 	{
 		String sql = "DELETE FROM places WHERE id="+id;
-		DataAccess da = new DataAccess();
+		DataAccess da = DataAccess.Singleton();
 		da.executeQuery(sql);
 	}
 
 	public ArrayList<Places> getAll()
 	{
 		String sql = "SELECT * FROM places";
-		DataAccess da = new DataAccess();
+		DataAccess da = DataAccess.Singleton();
 		ResultSet rs = da.getResultSet(sql);
 		ArrayList<Places> placelist = new ArrayList<Places>();
 		try {
@@ -56,7 +56,7 @@ public class PlacesAdapter {
 	public Places get(int id)
 	{
 		String sql = "SELECT * FROM places WHERE id="+id;
-		DataAccess da = new DataAccess();
+		DataAccess da = DataAccess.Singleton();
 		ResultSet rs = da.getResultSet(sql);
 
 
@@ -84,7 +84,7 @@ public class PlacesAdapter {
 		}
 	}
 	public Places select(String sql) {
-		DataAccess da = new DataAccess();
+		DataAccess da = DataAccess.Singleton();
 		ResultSet rs = da.getResultSet(sql);
 		Places place = new Places();
 
