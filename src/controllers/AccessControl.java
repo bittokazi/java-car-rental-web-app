@@ -10,11 +10,11 @@ import models.User;
 public class AccessControl {
 	public boolean login_check(HttpServletRequest request ,String un, String pw) {
 		UserAdapter ua=new UserAdapter();
-		String sql = "SELECT * FROM public.user WHERE username='"+un+"' AND password='"+pw+"'";
+		String sql = "SELECT * FROM public.user WHERE email='"+un+"' AND password='"+pw+"'";
 		User user=new User();
 		user=ua.select(sql);
 		if(user!=null) {
-			this.create_session(request, un, user.getRole());
+			this.create_session(request, user.getUsername(), user.getRole());
 			return true;
 		}
 		else{
