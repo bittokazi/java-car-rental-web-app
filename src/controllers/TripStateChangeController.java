@@ -120,6 +120,7 @@ public class TripStateChangeController extends HttpServlet {
 		TripRequestNotification tripRequestNotification = new GooglePlacesServices().getFromAndTo(invoice.getFrom_place(), invoice.getTo_place());
 		tripRequestNotification.setTripId(String.valueOf(invoice.getId()));
 		tripRequestNotification.setDriverId(invoice.getDriver_username());
+		tripRequestNotification.setCustomerId(invoice.getRider_username());
 		tripRequestNotification.setTotal_fare(invoice.getCost());
 		return tripRequestNotification;
 	}
