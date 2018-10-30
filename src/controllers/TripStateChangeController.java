@@ -40,12 +40,25 @@ public class TripStateChangeController extends HttpServlet {
 		InvoiceAdapter ia=new InvoiceAdapter();
 		invoice=ia.get(Integer.parseInt(request.getParameter("tripId")));
 		
-		
+		if(!invoice.getDriver_username().equals("")) {
+			if(request.getHeader("type")!=null &&  request.getHeader("type").contains("rest")) {
+				response.setStatus(422);
+				response.setContentType("application/json");
+				PrintWriter out = response.getWriter();
+				rest.put("success", false);
+				rest.put("message", "Ride Already Accepted");
+				out.print(new Gson().toJson(rest));
+			} else {
+				response.sendRedirect("login?msg=nomatch");
+			}
+			return;
+		}
 		
 		
 		if(status.contains("accept")) {
 			ia.accept_ride(invoice, ac.get_username(request));
 			TripRequestNotification tripRequestNotification = generateNoti(invoice);
+			tripRequestNotification.setDriverId(ac.get_username(request));
 			tripRequestNotification.setId("1");
 			try {
 				FCMNotification.sendRideAcceptnotification(getServletContext(), DuploMap.convert(new Gson().toJson(tripRequestNotification)), invoice.getRider_username());
