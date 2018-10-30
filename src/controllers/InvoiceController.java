@@ -84,7 +84,7 @@ public class InvoiceController extends HttpServlet {
 						TripRequestNotification tripRequestNotification = new GooglePlacesServices().getFromAndTo(request.getParameter("from"), request.getParameter("to"));
 						tripRequestNotification.setId(String.valueOf(0));
 						tripRequestNotification.setTripId(String.valueOf(tripId));
-						tripRequestNotification.setCustomerId(String.valueOf(user.getId()));
+						tripRequestNotification.setCustomerId(String.valueOf(user.getUsername()));
 						tripRequestNotification.setPickUpStr(request.getParameter("from"));
 						tripRequestNotification.setDestinationStr(request.getParameter("to"));
 						
