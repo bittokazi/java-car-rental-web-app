@@ -38,7 +38,6 @@ public class FCMNotification {
 		}
 		String topic = "all";
 		Message message = Message.builder()
-				.setNotification(new Notification("Drive Request", "You have a new ride request"))
 			    .putAllData(data)
 			    .setTopic(topic)
 			    .build();
@@ -56,7 +55,6 @@ public class FCMNotification {
 		}
 		String topic = "rider-"+username;
 		Message message = Message.builder()
-				.setNotification(new Notification("Driver Found", "Driver Accepted your request"))
 			    .putAllData(data)
 			    .setTopic(topic)
 			    .build();
@@ -74,7 +72,6 @@ public class FCMNotification {
 		}
 		String topic = "rider-"+username;
 		Message message = Message.builder()
-				.setNotification(new Notification("Driver On the way", "Driver is On the way"))
 			    .putAllData(data)
 			    .setTopic(topic)
 			    .build();
@@ -91,7 +88,6 @@ public class FCMNotification {
 		}
 		String topic = "rider-"+username;
 		Message message = Message.builder()
-				.setNotification(new Notification("On the way to Delivery", "Driver is On the way to Destination"))
 			    .putAllData(data)
 			    .setTopic(topic)
 			    .build();
@@ -108,7 +104,6 @@ public class FCMNotification {
 		}
 		String topic = "rider-"+username;
 		Message message = Message.builder()
-				.setNotification(new Notification("Trip Ended", "Trip ended Please Pay"))
 			    .putAllData(data)
 			    .setTopic(topic)
 			    .build();
@@ -141,7 +136,6 @@ public class FCMNotification {
 		}
 		String topic = "driver-"+username;
 		Message message = Message.builder()
-				.setNotification(new Notification("Payment Received", "Trip Payment Completed"))
 			    .putAllData(data)
 			    .setTopic(topic)
 			    .build();

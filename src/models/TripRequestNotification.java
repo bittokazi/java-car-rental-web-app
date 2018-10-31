@@ -48,6 +48,14 @@ public class TripRequestNotification {
 	@SerializedName("medium")
 	@Expose
 	private String medium;
+	
+	@SerializedName("notificationTitle")
+	@Expose
+	private String notificationTitle;
+	
+	@SerializedName("notificationBody")
+	@Expose
+	private String notificationBody;
 	public String getId() {
 		return id;
 	}
@@ -131,6 +139,18 @@ public class TripRequestNotification {
 	}
 	public void setMedium(String medium) {
 		this.medium = medium;
+	}
+	public String getNotificationTitle() {
+		return notificationTitle;
+	}
+	public void setNotificationTitle(String notificationTitle) {
+		this.notificationTitle = notificationTitle;
+	}
+	public String getNotificationBody() {
+		return notificationBody;
+	}
+	public void setNotificationBody(String notificationBody) {
+		this.notificationBody = notificationBody;
 	}
 	
 }

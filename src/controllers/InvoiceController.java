@@ -88,6 +88,9 @@ public class InvoiceController extends HttpServlet {
 						tripRequestNotification.setPickUpStr(request.getParameter("from"));
 						tripRequestNotification.setDestinationStr(request.getParameter("to"));
 						
+						tripRequestNotification.setNotificationTitle("Drive Request");
+						tripRequestNotification.setNotificationBody("You Have a new Drive Request");
+						
 						System.out.println(new Gson().toJson(tripRequestNotification));
 						
 						try {

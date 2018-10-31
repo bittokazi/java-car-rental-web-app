@@ -60,6 +60,8 @@ public class TripStateChangeController extends HttpServlet {
 			TripRequestNotification tripRequestNotification = generateNoti(invoice);
 			tripRequestNotification.setDriverId(ac.get_username(request));
 			tripRequestNotification.setId("1");
+			tripRequestNotification.setNotificationTitle("Drive Found");
+			tripRequestNotification.setNotificationBody("Driver Accepted your reques");
 			try {
 				FCMNotification.sendRideAcceptnotification(getServletContext(), DuploMap.convert(new Gson().toJson(tripRequestNotification)), invoice.getRider_username());
 			} catch (JsonSyntaxException | FirebaseMessagingException e) {
@@ -70,6 +72,8 @@ public class TripStateChangeController extends HttpServlet {
 		} else if(status.contains("onTheWay")) {
 			TripRequestNotification tripRequestNotification = generateNoti(invoice);
 			tripRequestNotification.setId("2");
+			tripRequestNotification.setNotificationTitle("Driver On the way");
+			tripRequestNotification.setNotificationBody("Driver is On the way");
 			try {
 				FCMNotification.sendOnTheWay(getServletContext(), DuploMap.convert(new Gson().toJson(tripRequestNotification)), invoice.getRider_username());
 			} catch (JsonSyntaxException | FirebaseMessagingException e) {
@@ -80,6 +84,8 @@ public class TripStateChangeController extends HttpServlet {
 		} else if(status.contains("WayToDelivery")) {
 			TripRequestNotification tripRequestNotification = generateNoti(invoice);
 			tripRequestNotification.setId("3");
+			tripRequestNotification.setNotificationTitle("On the way to Delivery");
+			tripRequestNotification.setNotificationBody("Driver is On the way to Destination");
 			try {
 				FCMNotification.sendOnTheWayToDelivery(getServletContext(), DuploMap.convert(new Gson().toJson(tripRequestNotification)), invoice.getRider_username());
 			} catch (JsonSyntaxException | FirebaseMessagingException e) {
@@ -90,6 +96,8 @@ public class TripStateChangeController extends HttpServlet {
 		} else if(status.contains("tripEnded")) {
 			TripRequestNotification tripRequestNotification = generateNoti(invoice);
 			tripRequestNotification.setId("4");
+			tripRequestNotification.setNotificationTitle("Trip Ended");
+			tripRequestNotification.setNotificationBody("Trip ended. Please Pay");
 			try {
 				FCMNotification.tripEnded(getServletContext(), DuploMap.convert(new Gson().toJson(tripRequestNotification)), invoice.getRider_username());
 			} catch (JsonSyntaxException | FirebaseMessagingException e) {
@@ -116,6 +124,8 @@ public class TripStateChangeController extends HttpServlet {
 			tripRequestNotification.setMedium(request.getParameter("medium"));
 			tripRequestNotification.setAmount(invoice.getCost());
 			tripRequestNotification.setCustomerId(invoice.getRider_username());
+			tripRequestNotification.setNotificationTitle("Payment Received");
+			tripRequestNotification.setNotificationBody("Trip Payment Completed");
 			try {
 				FCMNotification.sendPayment(getServletContext(), DuploMap.convert(new Gson().toJson(tripRequestNotification)), invoice.getDriver_username());
 			} catch (JsonSyntaxException | FirebaseMessagingException e) {
