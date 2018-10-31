@@ -31,6 +31,7 @@ public class UpdateProfileController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		AccessControl ac=new AccessControl();
 		UserMenu um=new UserMenu();
+		Map<String, Object> rest = new HashMap<>();
 		if(ac.get_role(request)!=null) {
 			if(ac.get_role(request).equals("rider") || ac.get_role(request).equals("driver") || ac.get_role(request).equals("administrator")) {
 				String menu=um.menu(ac.get_role(request).toString());
@@ -53,11 +54,29 @@ public class UpdateProfileController extends HttpServlet {
 
 			}
 			else {
-				response.sendRedirect("login?msg=nomatch");
+				if(request.getHeader("type")!=null &&  request.getHeader("type").contains("rest")) {
+					response.setStatus(401);
+					response.setContentType("application/json");
+					PrintWriter out = response.getWriter();
+					rest.put("success", false);
+					rest.put("message", "Username or Password Do not match");
+					out.print(new Gson().toJson(rest));
+				} else {
+					response.sendRedirect("login?msg=nomatch");
+				}
 			}
 		}
 		else {
-			response.sendRedirect("login?msg=nomatch");
+			if(request.getHeader("type")!=null &&  request.getHeader("type").contains("rest")) {
+				response.setStatus(401);
+				response.setContentType("application/json");
+				PrintWriter out = response.getWriter();
+				rest.put("success", false);
+				rest.put("message", "Username or Password Do not match");
+				out.print(new Gson().toJson(rest));
+			} else {
+				response.sendRedirect("login?msg=nomatch");
+			}
 		}
 	}
 
