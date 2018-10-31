@@ -93,11 +93,20 @@ public class InvoiceController extends HttpServlet {
 						
 						System.out.println(new Gson().toJson(tripRequestNotification));
 						
-						try {
-							FCMNotification.sendTnotification(getServletContext(), DuploMap.convert(new Gson().toJson(tripRequestNotification)));
-						} catch (JsonSyntaxException | FirebaseMessagingException e) {
-							e.printStackTrace();
-						}
+						new Runnable() {
+							
+							@Override
+							public void run() {
+								try {
+									FCMNotification.sendTnotification(getServletContext(), DuploMap.convert(new Gson().toJson(tripRequestNotification)));
+								} catch (JsonSyntaxException | FirebaseMessagingException e) {
+									e.printStackTrace();
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+							}
+						};
 						
 						if(request.getHeader("type")!=null &&  request.getHeader("type").contains("rest")) {
 							response.setContentType("application/json");
