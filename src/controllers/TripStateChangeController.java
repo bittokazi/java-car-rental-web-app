@@ -77,7 +77,7 @@ public class TripStateChangeController extends HttpServlet {
 					}
 					
 				}
-			};
+			}.run();
 			
 			PrintWriter out = response.getWriter();
 			out.print(new Gson().toJson(rest));
@@ -101,7 +101,7 @@ public class TripStateChangeController extends HttpServlet {
 					}
 					
 				}
-			};
+			}.run();
 			PrintWriter out = response.getWriter();
 			out.print(new Gson().toJson(rest));
 		} else if(status.contains("WayToDelivery")) {
@@ -124,7 +124,7 @@ public class TripStateChangeController extends HttpServlet {
 					}
 					
 				}
-			};
+			}.run();
 			
 			
 			PrintWriter out = response.getWriter();
@@ -149,7 +149,7 @@ public class TripStateChangeController extends HttpServlet {
 					}
 					
 				}
-			};
+			}.run();
 			
 			
 			PrintWriter out = response.getWriter();
@@ -175,7 +175,7 @@ public class TripStateChangeController extends HttpServlet {
 					}
 					
 				}
-			};
+			}.run();
 			
 			PrintWriter out = response.getWriter();
 			out.print(new Gson().toJson(rest));
@@ -202,7 +202,7 @@ public class TripStateChangeController extends HttpServlet {
 					}
 					
 				}
-			};
+			}.run();
 			
 			
 			PrintWriter out = response.getWriter();

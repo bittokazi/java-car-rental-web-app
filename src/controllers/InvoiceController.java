@@ -106,7 +106,7 @@ public class InvoiceController extends HttpServlet {
 									e.printStackTrace();
 								}
 							}
-						};
+						}.run();
 						
 						if(request.getHeader("type")!=null &&  request.getHeader("type").contains("rest")) {
 							response.setContentType("application/json");
