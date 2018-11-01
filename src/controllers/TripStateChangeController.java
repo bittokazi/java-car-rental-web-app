@@ -188,7 +188,7 @@ public class TripStateChangeController extends HttpServlet {
 			tripRequestNotification.setNotificationTitle("Payment Received");
 			tripRequestNotification.setNotificationBody("Trip Payment Completed");
 			
-			String  un = invoice.getRider_username();
+			String  un = invoice.getDriver_username();
 			new Runnable() {
 				@Override
 				public void run() {
