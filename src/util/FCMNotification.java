@@ -19,6 +19,9 @@ import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.Notification;
 import com.google.gson.Gson;
 
+import adapters.UserAdapter;
+import models.User;
+
 
 public class FCMNotification {
 	public static FirebaseApp initFirebase(ServletContext context) throws IOException {
@@ -56,10 +59,12 @@ public class FCMNotification {
 		} catch (Exception e) {
 			
 		}
-		String topic = "rider-"+username;
+		UserAdapter ua=new UserAdapter();
+		User user = new User();
+		user=ua.select("SELECT * FROM public.user WHERE username='"+username+"' ORDER BY id DESC");
 		Message message = Message.builder()
 			    .putAllData(data)
-			    .setTopic(topic)
+			    .setToken(user.getFcm_token())
 			    .setAndroidConfig(AndroidConfig.builder().setPriority(AndroidConfig.Priority.HIGH).build())
 			    .build();
 
@@ -74,10 +79,12 @@ public class FCMNotification {
 		} catch (Exception e) {
 			
 		}
-		String topic = "rider-"+username;
+		UserAdapter ua=new UserAdapter();
+		User user = new User();
+		user=ua.select("SELECT * FROM public.user WHERE username='"+username+"' ORDER BY id DESC");
 		Message message = Message.builder()
 			    .putAllData(data)
-			    .setTopic(topic)
+			    .setToken(user.getFcm_token())
 			    .setAndroidConfig(AndroidConfig.builder().setPriority(AndroidConfig.Priority.HIGH).build())
 			    .build();
 
@@ -91,10 +98,12 @@ public class FCMNotification {
 		} catch (Exception e) {
 			
 		}
-		String topic = "rider-"+username;
+		UserAdapter ua=new UserAdapter();
+		User user = new User();
+		user=ua.select("SELECT * FROM public.user WHERE username='"+username+"' ORDER BY id DESC");
 		Message message = Message.builder()
 			    .putAllData(data)
-			    .setTopic(topic)
+			    .setToken(user.getFcm_token())
 			    .setAndroidConfig(AndroidConfig.builder().setPriority(AndroidConfig.Priority.HIGH).build())
 			    .build();
 
@@ -108,10 +117,12 @@ public class FCMNotification {
 		} catch (Exception e) {
 			
 		}
-		String topic = "rider-"+username;
+		UserAdapter ua=new UserAdapter();
+		User user = new User();
+		user=ua.select("SELECT * FROM public.user WHERE username='"+username+"' ORDER BY id DESC");
 		Message message = Message.builder()
 			    .putAllData(data)
-			    .setTopic(topic)
+			    .setToken(user.getFcm_token())
 			    .setAndroidConfig(AndroidConfig.builder().setPriority(AndroidConfig.Priority.HIGH).build())
 			    .build();
 
@@ -125,10 +136,12 @@ public class FCMNotification {
 		} catch (Exception e) {
 			
 		}
-		String topic = "rider-"+username;
+		UserAdapter ua=new UserAdapter();
+		User user = new User();
+		user=ua.select("SELECT * FROM public.user WHERE username='"+username+"' ORDER BY id DESC");
 		Message message = Message.builder()
 			    .putAllData(data)
-			    .setTopic(topic)
+			    .setToken(user.getFcm_token())
 			    .setAndroidConfig(AndroidConfig.builder().setPriority(AndroidConfig.Priority.HIGH).build())
 			    .build();
 
@@ -142,10 +155,12 @@ public class FCMNotification {
 		} catch (Exception e) {
 			
 		}
-		String topic = "driver-"+username;
+		UserAdapter ua=new UserAdapter();
+		User user = new User();
+		user=ua.select("SELECT * FROM public.user WHERE username='"+username+"' ORDER BY id DESC");
 		Message message = Message.builder()
 			    .putAllData(data)
-			    .setTopic(topic)
+			    .setToken(user.getFcm_token())
 			    .setAndroidConfig(AndroidConfig.builder().setPriority(AndroidConfig.Priority.HIGH).build())
 			    .build();
 

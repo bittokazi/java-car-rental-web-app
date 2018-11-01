@@ -32,6 +32,12 @@ public class UserAdapter {
 		DataAccess da = DataAccess.Singleton();
 		da.executeQuery(sql);
 	}
+	public void update_fcm(User user)
+	{
+		String sql = "UPDATE public.user SET fcm_token='"+user.getFcm_token()+"' WHERE username='"+user.getUsername()+"'";
+		DataAccess da = DataAccess.Singleton();
+		da.executeQuery(sql);
+	}
 	public void update_image(User user)
 	{
 		String sql = "UPDATE public.user SET image='"+user.getImage()+"' WHERE username='"+user.getUsername()+"'";
@@ -130,6 +136,7 @@ public class UserAdapter {
 				user.setGender(rs.getString("gender"));
 			    user.setEmail(rs.getString("email"));
 			    user.setImage(rs.getString("image"));
+			    user.setFcm_token(rs.getString("fcm_token"));
 
 
 
@@ -163,7 +170,7 @@ public class UserAdapter {
 				user.setRole(rs.getString("role"));
 				user.setGender(rs.getString("gender"));
 			    user.setEmail(rs.getString("email"));
-			    user.setImage(rs.getString("image"));
+			    user.setFcm_token(rs.getString("fcm_token"));
 				return user;
 			}
 			else
