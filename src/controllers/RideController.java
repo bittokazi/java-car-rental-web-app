@@ -113,11 +113,11 @@ public class RideController extends HttpServlet {
 								CostAdapter ca = new CostAdapter();
 								
 								double total_cost=0;
-								cost = ca.select("SELECT * FROM cost WHERE type='base_value' ORDER BY id DESC LIMIT 1 OFFSET 1");
+								cost = ca.select("SELECT * FROM cost WHERE type='base_value' ORDER BY id DESC LIMIT 1 OFFSET 0");
 								total_cost=Double.parseDouble(cost.getCost());
 								String base_value=cost.getCost();
 								
-								cost = ca.select("SELECT * FROM cost WHERE type='milage_value' ORDER BY id DESC LIMIT 1 OFFSET 1");
+								cost = ca.select("SELECT * FROM cost WHERE type='milage_value' ORDER BY id DESC LIMIT 1 OFFSET 0");
 								total_cost=total_cost+Double.parseDouble(distance.getString("text").split(" ")[0])*Double.parseDouble(cost.getCost());
 								String millage_value=cost.getCost();
 								
