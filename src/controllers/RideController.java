@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -26,6 +28,9 @@ import org.apache.http.util.EntityUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.google.gson.Gson;
+
 import org.json.JSONArray;
 
 
@@ -80,6 +85,7 @@ public class RideController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		AccessControl ac=new AccessControl();
 		UserMenu um=new UserMenu();
+		Map<String, Object> rest = new HashMap<>();
 		if(ac.get_role(request)!=null) {
 			if(ac.get_role(request).equals("rider")) {
 				if(request.getParameterMap().containsKey("action")) {
@@ -107,16 +113,27 @@ public class RideController extends HttpServlet {
 								CostAdapter ca = new CostAdapter();
 								
 								double total_cost=0;
-								cost = ca.select("SELECT * FROM cost WHERE type='base_value' ORDER BY id DESC LIMIT 0,1");
+								cost = ca.select("SELECT * FROM cost WHERE type='base_value' ORDER BY id DESC LIMIT 0 OFFSET 1");
 								total_cost=Double.parseDouble(cost.getCost());
 								String base_value=cost.getCost();
 								
-								cost = ca.select("SELECT * FROM cost WHERE type='milage_value' ORDER BY id DESC LIMIT 0,1");
+								cost = ca.select("SELECT * FROM cost WHERE type='milage_value' ORDER BY id DESC LIMIT 0 OFFSET 1");
 								total_cost=total_cost+Double.parseDouble(distance.getString("text").split(" ")[0])*Double.parseDouble(cost.getCost());
 								String millage_value=cost.getCost();
 								
-								PrintWriter out = response.getWriter();
-								out.println(distance.getString("text").split(" ")[0]+"-"+duration.getString("text")+"-"+total_cost+"-"+base_value+"-"+millage_value);
+								
+								if(request.getHeader("type")!=null &&  request.getHeader("type").contains("rest")) {
+									response.setContentType("application/json");
+									PrintWriter out = response.getWriter();
+									rest.put("cost", total_cost);
+									rest.put("distance", Double.parseDouble(distance.getString("text").split(" ")[0]));
+									out.print(new Gson().toJson(rest));
+								} else {
+									PrintWriter out = response.getWriter();
+									out.println(distance.getString("text").split(" ")[0]+"-"+duration.getString("text")+"-"+total_cost+"-"+base_value+"-"+millage_value);
+								}
+								
+								
 							} catch (JSONException e) {
 								PrintWriter out = response.getWriter();
 								out.println("error");
@@ -135,11 +152,29 @@ public class RideController extends HttpServlet {
 				}
 			}
 			else {
-				response.sendRedirect("login");
+				if(request.getHeader("type")!=null &&  request.getHeader("type").contains("rest")) {
+					response.setStatus(401);
+					response.setContentType("application/json");
+					PrintWriter out = response.getWriter();
+					rest.put("success", false);
+					rest.put("message", "Username or Password Do not match");
+					out.print(new Gson().toJson(rest));
+				} else {
+					response.sendRedirect("login?msg=nomatch");
+				}
 			}
 		}
 		else {
-			response.sendRedirect("login");
+			if(request.getHeader("type")!=null &&  request.getHeader("type").contains("rest")) {
+				response.setStatus(401);
+				response.setContentType("application/json");
+				PrintWriter out = response.getWriter();
+				rest.put("success", false);
+				rest.put("message", "Username or Password Do not match");
+				out.print(new Gson().toJson(rest));
+			} else {
+				response.sendRedirect("login?msg=nomatch");
+			}
 		}
 	}
 
