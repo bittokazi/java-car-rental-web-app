@@ -11,6 +11,8 @@ import javax.servlet.ServletContext;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import com.google.firebase.messaging.AndroidConfig;
+import com.google.firebase.messaging.AndroidConfig.Priority;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
@@ -40,6 +42,7 @@ public class FCMNotification {
 		Message message = Message.builder()
 			    .putAllData(data)
 			    .setTopic(topic)
+			    .setAndroidConfig(AndroidConfig.builder().setPriority(AndroidConfig.Priority.HIGH).build())
 			    .build();
 
 		String response = FirebaseMessaging.getInstance().send(message);
@@ -57,6 +60,7 @@ public class FCMNotification {
 		Message message = Message.builder()
 			    .putAllData(data)
 			    .setTopic(topic)
+			    .setAndroidConfig(AndroidConfig.builder().setPriority(AndroidConfig.Priority.HIGH).build())
 			    .build();
 
 		String response = FirebaseMessaging.getInstance().send(message);
@@ -74,6 +78,7 @@ public class FCMNotification {
 		Message message = Message.builder()
 			    .putAllData(data)
 			    .setTopic(topic)
+			    .setAndroidConfig(AndroidConfig.builder().setPriority(AndroidConfig.Priority.HIGH).build())
 			    .build();
 
 		String response = FirebaseMessaging.getInstance().send(message);
@@ -90,6 +95,7 @@ public class FCMNotification {
 		Message message = Message.builder()
 			    .putAllData(data)
 			    .setTopic(topic)
+			    .setAndroidConfig(AndroidConfig.builder().setPriority(AndroidConfig.Priority.HIGH).build())
 			    .build();
 
 		String response = FirebaseMessaging.getInstance().send(message);
@@ -106,6 +112,7 @@ public class FCMNotification {
 		Message message = Message.builder()
 			    .putAllData(data)
 			    .setTopic(topic)
+			    .setAndroidConfig(AndroidConfig.builder().setPriority(AndroidConfig.Priority.HIGH).build())
 			    .build();
 
 		String response = FirebaseMessaging.getInstance().send(message);
@@ -122,6 +129,7 @@ public class FCMNotification {
 		Message message = Message.builder()
 			    .putAllData(data)
 			    .setTopic(topic)
+			    .setAndroidConfig(AndroidConfig.builder().setPriority(AndroidConfig.Priority.HIGH).build())
 			    .build();
 
 		String response = FirebaseMessaging.getInstance().send(message);
@@ -138,6 +146,7 @@ public class FCMNotification {
 		Message message = Message.builder()
 			    .putAllData(data)
 			    .setTopic(topic)
+			    .setAndroidConfig(AndroidConfig.builder().setPriority(AndroidConfig.Priority.HIGH).build())
 			    .build();
 
 		String response = FirebaseMessaging.getInstance().send(message);
