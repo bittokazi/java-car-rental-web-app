@@ -105,6 +105,7 @@ public class confirm_reg extends HttpServlet {
 	               
 	            } catch (Exception ex) {
 	            	
+	            	ex.printStackTrace();
 	            	if(request.getHeader("type")!=null &&  request.getHeader("type").contains("rest")) {
 	            		response.setStatus(422);
 						response.setContentType("application/json");
@@ -117,7 +118,7 @@ public class confirm_reg extends HttpServlet {
 						out.print("error");
 					}
 	            		
-	            	System.out.println(ex.getStackTrace());
+	            
 	            	
 	            }          
 	         
