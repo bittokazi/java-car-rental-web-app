@@ -16,6 +16,8 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import com.cloudinary.*;
+import com.cloudinary.utils.ObjectUtils;
 import com.google.gson.Gson;
 
 import adapters.CarDriverAdapter;
@@ -36,6 +38,7 @@ public class confirm_reg extends HttpServlet {
     	UserAdapter ua1=new UserAdapter();
     	User user1=new User();
     	Map<String, Object> rest = new HashMap<>();
+    	Cloudinary cloudinary = Singleton.getCloudinary();
     	user1=ua1.select("SELECT * FROM public.user WHERE username='"+request.getParameter("un")+"' OR email='"+request.getParameter("email")+"'");
     	if(user1!=null) {
     		PrintWriter out = response.getWriter();
@@ -54,6 +57,7 @@ public class confirm_reg extends HttpServlet {
 	                        String[] ext12=name.split("\\.");
 	                 
 							if(ext12[ext12.length-1].equals("jpg") || ext12[ext12.length-1].equals("png") || ext12[ext12.length-1].equals("bmp")) {
+								Map uploadResult = cloudinary.uploader().upload(item, ObjectUtils.emptyMap());
 								UserAdapter ua=new UserAdapter();
 	                        	User user=new User();
 	                        	UUID uid = UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d"); 
@@ -66,7 +70,7 @@ public class confirm_reg extends HttpServlet {
 	                        	user.setDob(request.getParameter("dob"));
 	                        	user.setGender(request.getParameter("gender"));
 	                        	user.setRole(request.getParameter("type"));
-	                        	user.setImage(user.getUsername()+"."+ext12[ext12.length-1]);
+	                        	user.setImage((String)uploadResult.get("url"));
 	                        	ua.insert(user);
 	                        	
 	                        	if(user.getRole().equals("driver")) {
@@ -78,11 +82,12 @@ public class confirm_reg extends HttpServlet {
 	                        		cardriver.setUsername(user.getUsername());
 	                        		cda.insert(cardriver);
 	                        	}
-	                        	String relativeWebPath = "/uploads";
-	                        	String absoluteFilePath = getServletContext().getRealPath(relativeWebPath);
-								item.write( new File(absoluteFilePath, user.getUsername()+"."+ext12[ext12.length-1]));
-								
-								
+	                        	
+	                        
+	                        	//String relativeWebPath = "/uploads";
+	                        	//String absoluteFilePath = getServletContext().getRealPath(relativeWebPath);
+								//item.write( new File(absoluteFilePath, user.getUsername()+"."+ext12[ext12.length-1]));
+
 								if(request.getHeader("type")!=null &&  request.getHeader("type").contains("rest")) {
 									response.setContentType("application/json");
 									PrintWriter out = response.getWriter();
