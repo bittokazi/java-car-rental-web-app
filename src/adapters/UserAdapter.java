@@ -101,7 +101,7 @@ public class UserAdapter {
 				user.setGender(rs.getString("gender"));
 			    user.setEmail(rs.getString("email"));
 			    user.setImage(rs.getString("image"));
-
+			    user.setFcm_token(rs.getString("fcm_token"));
 
 
 				userlist.add(user);
@@ -170,6 +170,7 @@ public class UserAdapter {
 				user.setRole(rs.getString("role"));
 				user.setGender(rs.getString("gender"));
 			    user.setEmail(rs.getString("email"));
+			    user.setImage(rs.getString("image"));
 			    user.setFcm_token(rs.getString("fcm_token"));
 				return user;
 			}
