@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,6 +18,9 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.Singleton;
+import com.cloudinary.utils.ObjectUtils;
 import com.google.gson.Gson;
 
 import adapters.CarDriverAdapter;
@@ -134,16 +138,27 @@ public class UpdateProfileController extends HttpServlet {
 						                        String[] ext12=name.split("\\.");
 						                 
 												if(ext12[ext12.length-1].equals("jpg") || ext12[ext12.length-1].equals("png") || ext12[ext12.length-1].equals("bmp")) {
+													
+													
+													Cloudinary cloudinary = Singleton.getCloudinary();
+						                        	UUID uid = UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d"); 
+													String fname=uid.randomUUID().toString();
+						                        	String relativeWebPath = "/uploads";
+													String absoluteFilePath = getServletContext().getRealPath(relativeWebPath);
+													item.write( new File(absoluteFilePath, fname+"."+ext12[ext12.length-1]));
+													
+													File toUpload = new File(absoluteFilePath+"/"+fname+"."+ext12[ext12.length-1]);
+													Map uploadResult = cloudinary.uploader().upload(toUpload, ObjectUtils.emptyMap());
+													
 													UserAdapter ua=new UserAdapter();
 						                        	User user=new User();
 						                        	user.setUsername(ac.get_username(request));
-						                        	user.setImage(user.getUsername()+"."+ext12[ext12.length-1]);
+						                        	user.setImage((String)uploadResult.get("url"));
+						                        	
+						                        
 						                        	
 						                        	ua.update_image(user);
 						                        	
-						                        	String relativeWebPath = "/uploads";
-						                        	String absoluteFilePath = getServletContext().getRealPath(relativeWebPath);
-													item.write( new File(absoluteFilePath, user.getUsername()+"."+ext12[ext12.length-1]));
 													PrintWriter out = response.getWriter();
 													out.print("Updated Profile Picture Successfully");
 												}
