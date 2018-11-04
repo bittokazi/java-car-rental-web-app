@@ -42,8 +42,10 @@ public class UpdateProfileController extends HttpServlet {
 				user=ua.select("SELECT * FROM public.user WHERE username='"+ac.get_username(request)+"' ORDER BY id DESC");
 				
 				if(request.getHeader("type")!=null && request.getHeader("type").contains("rest")) {
-					user.setFcm_token(request.getParameter("token"));
-					ua.update_fcm(user);
+					if(request.getParameter("token")!=null && !request.getParameter("token").equals("")) {
+						user.setFcm_token(request.getParameter("token"));
+						ua.update_fcm(user);
+					}
 					response.setContentType("application/json");
 					PrintWriter out = response.getWriter();
 					out.print(new Gson().toJson(user));
