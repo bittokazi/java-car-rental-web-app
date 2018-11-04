@@ -42,8 +42,14 @@ public class HistoryController extends HttpServlet {
 						else if(ac.get_role(request).equals("driver")) {
 							ia.delete("DELETE FROM invoice WHERE id='"+request.getParameter("id")+"' AND driver_username='"+ac.get_username(request)+"'");
 						}
-						PrintWriter out = response.getWriter();
-						out.println("Deleted Invoice");
+						if(request.getHeader("type")!=null &&  request.getHeader("type").contains("rest")) {
+							response.setContentType("application/json");
+							PrintWriter out = response.getWriter();
+							out.print(new Gson().toJson(rest));
+						} else {
+							PrintWriter out = response.getWriter();
+							out.println("Deleted Invoice");
+						}
 						return;
 					}
 				}
