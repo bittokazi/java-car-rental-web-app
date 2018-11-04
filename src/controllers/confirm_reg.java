@@ -39,7 +39,7 @@ public class confirm_reg extends HttpServlet {
     	User user1=new User();
     	Map<String, Object> rest = new HashMap<>();
     	Cloudinary cloudinary = Singleton.getCloudinary();
-    	user1=ua1.select("SELECT * FROM public.user WHERE username='"+request.getParameter("un")+"' OR email='"+request.getParameter("email")+"'");
+    user1=ua1.select("SELECT * FROM public.user WHERE username='"+request.getParameter("un")+"' OR email='"+request.getParameter("email")+"'");
     	if(user1!=null) {
     		PrintWriter out = response.getWriter();
 			out.print("exist");
@@ -65,10 +65,10 @@ public class confirm_reg extends HttpServlet {
 								item.write( new File(absoluteFilePath, fname+"."+ext12[ext12.length-1]));
 								
 								File toUpload = new File(absoluteFilePath+"/"+fname+"."+ext12[ext12.length-1]);
-								Map uploadResult = cloudinary.uploader().upload(item, ObjectUtils.emptyMap());
+								Map uploadResult = cloudinary.uploader().upload(toUpload, ObjectUtils.emptyMap());
 								
 								UserAdapter ua=new UserAdapter();
-	                        	User user=new User();
+	                        		User user=new User();
 								user.setName(request.getParameter("n"));
 	                        	user.setUsername(UUID.randomUUID().toString());
 	                        	user.setPassword(request.getParameter("pw"));
