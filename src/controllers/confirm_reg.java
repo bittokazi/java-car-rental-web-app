@@ -116,7 +116,8 @@ public class confirm_reg extends HttpServlet {
 						PrintWriter out = response.getWriter();
 						out.print("error");
 					}
-	            	
+	            		
+	            	System.out.println(ex.getStackTrace());
 	            	
 	            }          
 	         
