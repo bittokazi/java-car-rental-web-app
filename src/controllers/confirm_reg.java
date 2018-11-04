@@ -57,11 +57,18 @@ public class confirm_reg extends HttpServlet {
 	                        String[] ext12=name.split("\\.");
 	                 
 							if(ext12[ext12.length-1].equals("jpg") || ext12[ext12.length-1].equals("png") || ext12[ext12.length-1].equals("bmp")) {
+								UUID uid = UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d"); 
+								String fname=uid.randomUUID().toString();
+								
+								String relativeWebPath = "/uploads";
+								String absoluteFilePath = getServletContext().getRealPath(relativeWebPath);
+								item.write( new File(absoluteFilePath, fname+"."+ext12[ext12.length-1]));
+								
+								File toUpload = new File(absoluteFilePath+"/"+fname+"."+ext12[ext12.length-1]);
 								Map uploadResult = cloudinary.uploader().upload(item, ObjectUtils.emptyMap());
+								
 								UserAdapter ua=new UserAdapter();
 	                        	User user=new User();
-	                        	UUID uid = UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d"); 
-	                        	String fname=uid.randomUUID().toString();
 								user.setName(request.getParameter("n"));
 	                        	user.setUsername(UUID.randomUUID().toString());
 	                        	user.setPassword(request.getParameter("pw"));
@@ -82,11 +89,6 @@ public class confirm_reg extends HttpServlet {
 	                        		cardriver.setUsername(user.getUsername());
 	                        		cda.insert(cardriver);
 	                        	}
-	                        	
-	                        
-	                        	//String relativeWebPath = "/uploads";
-	                        	//String absoluteFilePath = getServletContext().getRealPath(relativeWebPath);
-								//item.write( new File(absoluteFilePath, user.getUsername()+"."+ext12[ext12.length-1]));
 
 								if(request.getHeader("type")!=null &&  request.getHeader("type").contains("rest")) {
 									response.setContentType("application/json");
