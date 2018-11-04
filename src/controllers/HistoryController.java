@@ -50,10 +50,10 @@ public class HistoryController extends HttpServlet {
 				InvoiceAdapter ia=new InvoiceAdapter();
 				ArrayList<Invoice> drivelist = new ArrayList<Invoice>();
 				if(ac.get_role(request).equals("rider")) {
-					drivelist=ia.select_query("SELECT * FROM invoice WHERE rider_username='"+ac.get_username(request)+"' ORDER BY id DESC");
+					drivelist=ia.select_query("SELECT * FROM invoice WHERE rider_username='"+ac.get_username(request)+"' ORDER BY id DESC LIMIT 30 OFFSET 0");
 				}
 				else if(ac.get_role(request).equals("driver")) {
-					drivelist=ia.select_query("SELECT * FROM invoice WHERE driver_username='"+ac.get_username(request)+"' ORDER BY id DESC");
+					drivelist=ia.select_query("SELECT * FROM invoice WHERE driver_username='"+ac.get_username(request)+"' ORDER BY id DESC LIMIT 30 OFFSET 0");
 				}
 				else if(ac.get_role(request).equals("administrator")) {
 					drivelist=ia.select_query("SELECT * FROM invoice ORDER BY id DESC");
