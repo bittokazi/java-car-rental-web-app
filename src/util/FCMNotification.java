@@ -167,4 +167,23 @@ public class FCMNotification {
 		String response = FirebaseMessaging.getInstance().send(message);
 		System.out.println("Successfully sent message: " + response);
 	}
+	public static void tripCancelled(ServletContext context, Map<String, String> data, String username) throws FirebaseMessagingException, IOException {
+		System.out.println(new Gson().toJson(data));
+		try {
+			FCMNotification.initFirebase(context);
+		} catch (Exception e) {
+			
+		}
+		UserAdapter ua=new UserAdapter();
+		User user = new User();
+		user=ua.select("SELECT * FROM public.user WHERE username='"+username+"' ORDER BY id DESC");
+		Message message = Message.builder()
+			    .putAllData(data)
+			    .setToken(user.getFcm_token())
+			    .setAndroidConfig(AndroidConfig.builder().setPriority(AndroidConfig.Priority.HIGH).build())
+			    .build();
+
+		String response = FirebaseMessaging.getInstance().send(message);
+		System.out.println("Successfully sent message: " + response);
+	}
 }

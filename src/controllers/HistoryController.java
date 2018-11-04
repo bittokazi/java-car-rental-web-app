@@ -12,10 +12,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import adapters.InvoiceAdapter;
 import models.Invoice;
+import models.TripRequestNotification;
+import util.DuploMap;
+import util.FCMNotification;
 
 public class HistoryController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -32,6 +37,50 @@ public class HistoryController extends HttpServlet {
 				if(request.getParameterMap().containsKey("action")) {
 					if(request.getParameter("action").equals("delete")) {
 						InvoiceAdapter ia=new InvoiceAdapter();
+						
+						
+						Invoice invoice=new Invoice();
+						InvoiceAdapter iaC=new InvoiceAdapter();
+						invoice=iaC.get(Integer.parseInt(request.getParameter("id")));
+						TripRequestNotification tripRequestNotification = new TripRequestNotification();
+						tripRequestNotification.setId("9");
+						tripRequestNotification.setTripId(request.getParameter("id"));
+						tripRequestNotification.setNotificationTitle("Trip Cancelled");
+						tripRequestNotification.setNotificationBody("Trip Cancelled");
+						if(!invoice.getDriver_username().equals("")) {
+							final String un = invoice.getDriver_username();
+							new Runnable() {
+								@Override
+								public void run() {
+									try {
+										FCMNotification.tripCancelled(getServletContext(), DuploMap.convert(new Gson().toJson(tripRequestNotification)), un);
+									} catch (JsonSyntaxException | FirebaseMessagingException e) {
+										e.printStackTrace();
+									} catch (IOException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+									
+								}
+							}.run();
+						}
+						final String un = invoice.getRider_username();
+						new Runnable() {
+							@Override
+							public void run() {
+								try {
+									FCMNotification.tripCancelled(getServletContext(), DuploMap.convert(new Gson().toJson(tripRequestNotification)), un);
+								} catch (JsonSyntaxException | FirebaseMessagingException e) {
+									e.printStackTrace();
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								
+							}
+						}.run();
+						
+						
 						
 						if(ac.get_role(request).equals("administrator")) {
 							ia.delete("DELETE FROM invoice WHERE id='"+request.getParameter("id")+"'");
@@ -53,6 +102,10 @@ public class HistoryController extends HttpServlet {
 						return;
 					}
 				}
+				
+				
+				
+				
 				InvoiceAdapter ia=new InvoiceAdapter();
 				ArrayList<Invoice> drivelist = new ArrayList<Invoice>();
 				if(ac.get_role(request).equals("rider")) {
