@@ -70,6 +70,7 @@ public class TripQueue implements ServletContextListener {
 		    	            					user1=ua.select("SELECT * FROM public.user WHERE username='"+driver.getKey()+"' ORDER BY id DESC");
 		    	            					final User user = user1;
 		    	            					
+		    	            					entry.getValue().getInformedDrivers().add(user.getUsername());
 		    	            					TripItem tripItem = new TripItem();
 		    	            					tripItem.setInformedDrivers(entry.getValue().getInformedDrivers());
 		    	            					tripItem.setLatitude(entry.getValue().getLatitude());
@@ -77,7 +78,7 @@ public class TripQueue implements ServletContextListener {
 		    	            					tripItem.setTime(entry.getValue().getTime());
 		    	            					tripItem.setUserName(entry.getValue().getUserName());
 		    	            					TripQueue.TripList.put(entry.getKey(), tripItem);
-		    	            					entry.getValue().getInformedDrivers().add(user.getUsername());
+		    	            					
 		    	            					new Runnable() {
 		    	            						@Override
 		    	            						public void run() {
