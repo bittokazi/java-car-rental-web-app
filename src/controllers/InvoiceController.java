@@ -84,7 +84,8 @@ public class InvoiceController extends HttpServlet {
 						List<Double> pup = new GooglePlacesServices().getPickupLatLng(request.getParameter("from"), request.getParameter("to"));
 						tripItem.setLatitude(pup.get(0));
 						tripItem.setLongitude(pup.get(1));
-						tripItem.setTime(System.currentTimeMillis()+300000);
+						tripItem.setTime(System.currentTimeMillis()+900000);
+						tripItem.setUserName(ac.get_username(request));
 						TripQueue.TripList.put(String.valueOf(tripId), tripItem);
 						
 //						TripRequestNotification tripRequestNotification = new GooglePlacesServices().getFromAndTo(request.getParameter("from"), request.getParameter("to"));

@@ -42,6 +42,7 @@ public class HistoryController extends HttpServlet {
 						Invoice invoice=new Invoice();
 						InvoiceAdapter iaC=new InvoiceAdapter();
 						invoice=iaC.get(Integer.parseInt(request.getParameter("id")));
+						TripQueue.TripList.remove(String.valueOf(invoice.getId()));
 						TripRequestNotification tripRequestNotification = new TripRequestNotification();
 						tripRequestNotification.setId("9");
 						tripRequestNotification.setTripId(request.getParameter("id"));
