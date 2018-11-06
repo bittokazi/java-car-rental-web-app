@@ -52,6 +52,23 @@ public class FCMNotification {
 		System.out.println("Successfully sent message: " + response);
 	}
 	
+	public static void sendDrivernotification(ServletContext context, Map<String, String> data, String token) throws FirebaseMessagingException, IOException {
+		System.out.println(new Gson().toJson(data));
+		try {
+			FCMNotification.initFirebase(context);
+		} catch (Exception e) {
+			
+		}
+		Message message = Message.builder()
+			    .putAllData(data)
+			    .setToken(token)
+			    .setAndroidConfig(AndroidConfig.builder().setPriority(AndroidConfig.Priority.HIGH).build())
+			    .build();
+
+		String response = FirebaseMessaging.getInstance().send(message);
+		System.out.println("Successfully sent message: " + response);
+	}
+	
 	public static void sendRideAcceptnotification(ServletContext context, Map<String, String> data, String username) throws FirebaseMessagingException, IOException {
 		System.out.println(new Gson().toJson(data));
 		try {
