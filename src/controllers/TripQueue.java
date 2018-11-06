@@ -63,6 +63,7 @@ public class TripQueue implements ServletContextListener {
 	            			} else {
 	            				for (ConcurrentHashMap.Entry<String, DriverOnline> driver : DriverOnlineController.DriverOnline.entrySet()) {
 		    	            			if(distance(driver.getValue().getLatitude(), driver.getValue().getLongitude(), entry.getValue().getLatitude(), entry.getValue().getLongitude(), 'K')<6.0) {
+		    	            				System.out.println(distance(driver.getValue().getLatitude(), driver.getValue().getLongitude(), entry.getValue().getLatitude(), entry.getValue().getLongitude(), 'K'));
 		    	            				if(!entry.getValue().getInformedDrivers().contains(driver.getKey())) {
 		    	            					
 		    	            					UserAdapter ua=new UserAdapter();
