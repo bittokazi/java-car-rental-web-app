@@ -57,6 +57,7 @@ public class TripStateChangeController extends HttpServlet {
 		
 		if(status.contains("accept")) {
 			ia.accept_ride(invoice, ac.get_username(request));
+			TripQueue.TripList.remove(String.valueOf(invoice.getId()));
 			TripRequestNotification tripRequestNotification = generateNoti(invoice);
 			tripRequestNotification.setDriverId(ac.get_username(request));
 			tripRequestNotification.setId("1");
