@@ -11,11 +11,16 @@ import javax.servlet.ServletContext;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import com.google.firebase.messaging.AndroidConfig;
+import com.google.firebase.messaging.AndroidConfig.Priority;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.Notification;
 import com.google.gson.Gson;
+
+import adapters.UserAdapter;
+import models.User;
 
 
 public class FCMNotification {
@@ -38,9 +43,26 @@ public class FCMNotification {
 		}
 		String topic = "all";
 		Message message = Message.builder()
-				.setNotification(new Notification("Drive Request", "You have a new ride request"))
 			    .putAllData(data)
 			    .setTopic(topic)
+			    .setAndroidConfig(AndroidConfig.builder().setPriority(AndroidConfig.Priority.HIGH).build())
+			    .build();
+
+		String response = FirebaseMessaging.getInstance().send(message);
+		System.out.println("Successfully sent message: " + response);
+	}
+	
+	public static void sendDrivernotification(ServletContext context, Map<String, String> data, String token) throws FirebaseMessagingException, IOException {
+		System.out.println(new Gson().toJson(data));
+		try {
+			FCMNotification.initFirebase(context);
+		} catch (Exception e) {
+			
+		}
+		Message message = Message.builder()
+			    .putAllData(data)
+			    .setToken(token)
+			    .setAndroidConfig(AndroidConfig.builder().setPriority(AndroidConfig.Priority.HIGH).build())
 			    .build();
 
 		String response = FirebaseMessaging.getInstance().send(message);
@@ -54,11 +76,13 @@ public class FCMNotification {
 		} catch (Exception e) {
 			
 		}
-		String topic = "rider-"+username;
+		UserAdapter ua=new UserAdapter();
+		User user = new User();
+		user=ua.select("SELECT * FROM public.user WHERE username='"+username+"' ORDER BY id DESC");
 		Message message = Message.builder()
-				.setNotification(new Notification("Driver Found", "Driver Accepted your request"))
 			    .putAllData(data)
-			    .setTopic(topic)
+			    .setToken(user.getFcm_token())
+			    .setAndroidConfig(AndroidConfig.builder().setPriority(AndroidConfig.Priority.HIGH).build())
 			    .build();
 
 		String response = FirebaseMessaging.getInstance().send(message);
@@ -72,11 +96,13 @@ public class FCMNotification {
 		} catch (Exception e) {
 			
 		}
-		String topic = "rider-"+username;
+		UserAdapter ua=new UserAdapter();
+		User user = new User();
+		user=ua.select("SELECT * FROM public.user WHERE username='"+username+"' ORDER BY id DESC");
 		Message message = Message.builder()
-				.setNotification(new Notification("Driver On the way", "Driver is On the way"))
 			    .putAllData(data)
-			    .setTopic(topic)
+			    .setToken(user.getFcm_token())
+			    .setAndroidConfig(AndroidConfig.builder().setPriority(AndroidConfig.Priority.HIGH).build())
 			    .build();
 
 		String response = FirebaseMessaging.getInstance().send(message);
@@ -89,11 +115,13 @@ public class FCMNotification {
 		} catch (Exception e) {
 			
 		}
-		String topic = "rider-"+username;
+		UserAdapter ua=new UserAdapter();
+		User user = new User();
+		user=ua.select("SELECT * FROM public.user WHERE username='"+username+"' ORDER BY id DESC");
 		Message message = Message.builder()
-				.setNotification(new Notification("On the way to Delivery", "Driver is On the way to Destination"))
 			    .putAllData(data)
-			    .setTopic(topic)
+			    .setToken(user.getFcm_token())
+			    .setAndroidConfig(AndroidConfig.builder().setPriority(AndroidConfig.Priority.HIGH).build())
 			    .build();
 
 		String response = FirebaseMessaging.getInstance().send(message);
@@ -106,11 +134,13 @@ public class FCMNotification {
 		} catch (Exception e) {
 			
 		}
-		String topic = "rider-"+username;
+		UserAdapter ua=new UserAdapter();
+		User user = new User();
+		user=ua.select("SELECT * FROM public.user WHERE username='"+username+"' ORDER BY id DESC");
 		Message message = Message.builder()
-				.setNotification(new Notification("Trip Ended", "Trip ended Please Pay"))
 			    .putAllData(data)
-			    .setTopic(topic)
+			    .setToken(user.getFcm_token())
+			    .setAndroidConfig(AndroidConfig.builder().setPriority(AndroidConfig.Priority.HIGH).build())
 			    .build();
 
 		String response = FirebaseMessaging.getInstance().send(message);
@@ -123,10 +153,13 @@ public class FCMNotification {
 		} catch (Exception e) {
 			
 		}
-		String topic = "rider-"+username;
+		UserAdapter ua=new UserAdapter();
+		User user = new User();
+		user=ua.select("SELECT * FROM public.user WHERE username='"+username+"' ORDER BY id DESC");
 		Message message = Message.builder()
 			    .putAllData(data)
-			    .setTopic(topic)
+			    .setToken(user.getFcm_token())
+			    .setAndroidConfig(AndroidConfig.builder().setPriority(AndroidConfig.Priority.HIGH).build())
 			    .build();
 
 		String response = FirebaseMessaging.getInstance().send(message);
@@ -139,11 +172,32 @@ public class FCMNotification {
 		} catch (Exception e) {
 			
 		}
-		String topic = "driver-"+username;
+		UserAdapter ua=new UserAdapter();
+		User user = new User();
+		user=ua.select("SELECT * FROM public.user WHERE username='"+username+"' ORDER BY id DESC");
 		Message message = Message.builder()
-				.setNotification(new Notification("Payment Received", "Trip Payment Completed"))
 			    .putAllData(data)
-			    .setTopic(topic)
+			    .setToken(user.getFcm_token())
+			    .setAndroidConfig(AndroidConfig.builder().setPriority(AndroidConfig.Priority.HIGH).build())
+			    .build();
+
+		String response = FirebaseMessaging.getInstance().send(message);
+		System.out.println("Successfully sent message: " + response);
+	}
+	public static void tripCancelled(ServletContext context, Map<String, String> data, String username) throws FirebaseMessagingException, IOException {
+		System.out.println(new Gson().toJson(data));
+		try {
+			FCMNotification.initFirebase(context);
+		} catch (Exception e) {
+			
+		}
+		UserAdapter ua=new UserAdapter();
+		User user = new User();
+		user=ua.select("SELECT * FROM public.user WHERE username='"+username+"' ORDER BY id DESC");
+		Message message = Message.builder()
+			    .putAllData(data)
+			    .setToken(user.getFcm_token())
+			    .setAndroidConfig(AndroidConfig.builder().setPriority(AndroidConfig.Priority.HIGH).build())
 			    .build();
 
 		String response = FirebaseMessaging.getInstance().send(message);

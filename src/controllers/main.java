@@ -25,7 +25,7 @@ public class main extends HttpServlet {
 				
 				UserAdapter ua=new UserAdapter();
 				User user = new User();
-				user=ua.select("SELECT * FROM user WHERE username='"+ac.get_username(request)+"' ORDER BY id DESC");
+				user=ua.select("SELECT * FROM public.user WHERE username='"+ac.get_username(request)+"' ORDER BY id DESC");
 				request.setAttribute("user", user);
 				
 				RequestDispatcher disp = request.getRequestDispatcher("/WEB-INF/views/dashboard/main.jsp");

@@ -59,4 +59,33 @@ public class GooglePlacesServices {
 			return null;
 		}
 	}
+	
+	public List<Double> getPickupLatLng(String from_place, String to_place) throws ClientProtocolException, IOException {
+		HttpClient client1 = new DefaultHttpClient();
+        HttpGet request1 = new HttpGet("https://maps.googleapis.com/maps/api/directions/json?origin="+URLEncoder.encode(from_place, "UTF-8")+"&destination="+URLEncoder.encode(to_place, "UTF-8")+"&key=AIzaSyCtl2RNlJcBkt34dAqmN1h45Un-xHP9VnQ");
+        // Get the response
+        ResponseHandler<String> responseHandler = new BasicResponseHandler();
+        String bodyHtml = client1.execute(request1, responseHandler);
+        
+        try {
+			JSONObject obj = new JSONObject(bodyHtml);
+			JSONArray routes = obj.getJSONArray("routes");
+			JSONObject obj1 = routes.getJSONObject(0);
+			JSONArray legs = obj1.getJSONArray("legs");
+			JSONObject obj2 = legs.getJSONObject(0);
+			JSONObject distance = obj2.getJSONObject("distance");
+			JSONObject duration = obj2.getJSONObject("duration");
+			JSONObject start_location = obj2.getJSONObject("start_location");
+			JSONObject end_location = obj2.getJSONObject("end_location");
+			
+			List<Double> puckup = new ArrayList<>();
+			puckup.add(start_location.getDouble("lat"));
+			puckup.add(start_location.getDouble("lng"));
+			
+			return puckup;
+
+		} catch (JSONException e) {
+			return null;
+		}
+	}
 }

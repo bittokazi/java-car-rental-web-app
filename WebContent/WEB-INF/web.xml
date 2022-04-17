@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.2//EN" "http://java.sun.com/j2ee/dtds/web-app_2_2.dtd">
 <web-app id="WebApp_ID">
+	<listener>
+       <listener-class>controllers.DriverOnlineController</listener-class>
+    </listener>
+    <listener>
+       <listener-class>controllers.TripQueue</listener-class>
+    </listener>
 	<display-name>car_rental</display-name>
 	<servlet>
 		<servlet-name>login</servlet-name>
@@ -124,6 +130,13 @@
 		<servlet-class>controllers.TripStateChangeController</servlet-class>
 	</servlet>
 	
+	<servlet>
+		<servlet-name>DriverOnlineUpdaterController</servlet-name>
+		<display-name>DriverOnlineUpdaterController</display-name>
+		<description></description>
+		<servlet-class>controllers.DriverOnlineUpdaterController</servlet-class>
+	</servlet>
+	
 	<servlet-mapping>
 		<servlet-name>login</servlet-name>
 		<url-pattern>/dashboard/login</url-pattern>
@@ -203,6 +216,10 @@
 	<servlet-mapping>
 		<servlet-name>TripStateChangeController</servlet-name>
 		<url-pattern>/dashboard/trip-state</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>DriverOnlineUpdaterController</servlet-name>
+		<url-pattern>/dashboard/driver-loc</url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>

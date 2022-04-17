@@ -40,48 +40,119 @@ public class TripStateChangeController extends HttpServlet {
 		InvoiceAdapter ia=new InvoiceAdapter();
 		invoice=ia.get(Integer.parseInt(request.getParameter("tripId")));
 		
-		
+		if(status.contains("accept") && !invoice.getDriver_username().equals("")) {
+			if(request.getHeader("type")!=null &&  request.getHeader("type").contains("rest")) {
+				response.setStatus(422);
+				response.setContentType("application/json");
+				PrintWriter out = response.getWriter();
+				rest.put("success", false);
+				rest.put("message", "Ride Already Accepted");
+				out.print(new Gson().toJson(rest));
+			} else {
+				response.sendRedirect("login?msg=nomatch");
+			}
+			return;
+		}
 		
 		
 		if(status.contains("accept")) {
 			ia.accept_ride(invoice, ac.get_username(request));
+			TripQueue.TripList.remove(String.valueOf(invoice.getId()));
 			TripRequestNotification tripRequestNotification = generateNoti(invoice);
+			tripRequestNotification.setDriverId(ac.get_username(request));
 			tripRequestNotification.setId("1");
-			try {
-				FCMNotification.sendRideAcceptnotification(getServletContext(), DuploMap.convert(new Gson().toJson(tripRequestNotification)), invoice.getRider_username());
-			} catch (JsonSyntaxException | FirebaseMessagingException e) {
-				e.printStackTrace();
-			}
+			tripRequestNotification.setNotificationTitle("Drive Found");
+			tripRequestNotification.setNotificationBody("Driver Accepted your reques");
+			
+			String  un = invoice.getRider_username();
+			new Runnable() {
+				@Override
+				public void run() {
+					try {
+						FCMNotification.sendRideAcceptnotification(getServletContext(), DuploMap.convert(new Gson().toJson(tripRequestNotification)), un);
+					} catch (JsonSyntaxException | FirebaseMessagingException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+				}
+			}.run();
+			
 			PrintWriter out = response.getWriter();
 			out.print(new Gson().toJson(rest));
 		} else if(status.contains("onTheWay")) {
 			TripRequestNotification tripRequestNotification = generateNoti(invoice);
 			tripRequestNotification.setId("2");
-			try {
-				FCMNotification.sendOnTheWay(getServletContext(), DuploMap.convert(new Gson().toJson(tripRequestNotification)), invoice.getRider_username());
-			} catch (JsonSyntaxException | FirebaseMessagingException e) {
-				e.printStackTrace();
-			}
+			tripRequestNotification.setNotificationTitle("Driver On the way");
+			tripRequestNotification.setNotificationBody("Driver is On the way");
+			
+			String  un = invoice.getRider_username();
+			new Runnable() {
+				@Override
+				public void run() {
+					try {
+						FCMNotification.sendOnTheWay(getServletContext(), DuploMap.convert(new Gson().toJson(tripRequestNotification)), un);
+					} catch (JsonSyntaxException | FirebaseMessagingException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+				}
+			}.run();
 			PrintWriter out = response.getWriter();
 			out.print(new Gson().toJson(rest));
 		} else if(status.contains("WayToDelivery")) {
 			TripRequestNotification tripRequestNotification = generateNoti(invoice);
 			tripRequestNotification.setId("3");
-			try {
-				FCMNotification.sendOnTheWayToDelivery(getServletContext(), DuploMap.convert(new Gson().toJson(tripRequestNotification)), invoice.getRider_username());
-			} catch (JsonSyntaxException | FirebaseMessagingException e) {
-				e.printStackTrace();
-			}
+			tripRequestNotification.setNotificationTitle("On the way to Delivery");
+			tripRequestNotification.setNotificationBody("Driver is On the way to Destination");
+			
+			String  un = invoice.getRider_username();
+			new Runnable() {
+				@Override
+				public void run() {
+					try {
+						FCMNotification.sendOnTheWayToDelivery(getServletContext(), DuploMap.convert(new Gson().toJson(tripRequestNotification)),un);
+					} catch (JsonSyntaxException | FirebaseMessagingException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+				}
+			}.run();
+			
+			
 			PrintWriter out = response.getWriter();
 			out.print(new Gson().toJson(rest));
 		} else if(status.contains("tripEnded")) {
 			TripRequestNotification tripRequestNotification = generateNoti(invoice);
 			tripRequestNotification.setId("4");
-			try {
-				FCMNotification.tripEnded(getServletContext(), DuploMap.convert(new Gson().toJson(tripRequestNotification)), invoice.getRider_username());
-			} catch (JsonSyntaxException | FirebaseMessagingException e) {
-				e.printStackTrace();
-			}
+			tripRequestNotification.setNotificationTitle("Trip Ended");
+			tripRequestNotification.setNotificationBody("Trip ended. Please Pay");
+			
+			String  un = invoice.getRider_username();
+			new Runnable() {
+				@Override
+				public void run() {
+					try {
+						FCMNotification.tripEnded(getServletContext(), DuploMap.convert(new Gson().toJson(tripRequestNotification)), un);
+					} catch (JsonSyntaxException | FirebaseMessagingException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+				}
+			}.run();
+			
+			
 			PrintWriter out = response.getWriter();
 			out.print(new Gson().toJson(rest));
 		} else if(status.contains("location")) {
@@ -90,11 +161,23 @@ public class TripStateChangeController extends HttpServlet {
 			tripRequestNotification.setLocation(request.getParameter("location"));
 			tripRequestNotification.setRotation(request.getParameter("rotation"));
 			tripRequestNotification.setBearing(request.getParameter("bearing"));
-			try {
-				FCMNotification.sendLocation(getServletContext(), DuploMap.convert(new Gson().toJson(tripRequestNotification)), invoice.getRider_username());
-			} catch (JsonSyntaxException | FirebaseMessagingException e) {
-				e.printStackTrace();
-			}
+			
+			String  un = invoice.getRider_username();
+			new Runnable() {
+				@Override
+				public void run() {
+					try {
+						FCMNotification.sendLocation(getServletContext(), DuploMap.convert(new Gson().toJson(tripRequestNotification)), un);
+					} catch (JsonSyntaxException | FirebaseMessagingException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+				}
+			}.run();
+			
 			PrintWriter out = response.getWriter();
 			out.print(new Gson().toJson(rest));
 		} else if(status.contains("payment")) {
@@ -103,11 +186,27 @@ public class TripStateChangeController extends HttpServlet {
 			tripRequestNotification.setMedium(request.getParameter("medium"));
 			tripRequestNotification.setAmount(invoice.getCost());
 			tripRequestNotification.setCustomerId(invoice.getRider_username());
-			try {
-				FCMNotification.sendPayment(getServletContext(), DuploMap.convert(new Gson().toJson(tripRequestNotification)), invoice.getDriver_username());
-			} catch (JsonSyntaxException | FirebaseMessagingException e) {
-				e.printStackTrace();
-			}
+			tripRequestNotification.setNotificationTitle("Payment Received");
+			tripRequestNotification.setNotificationBody("Trip Payment Completed");
+			
+			String  un = invoice.getDriver_username();
+			ia.done_ride(invoice, un);
+			new Runnable() {
+				@Override
+				public void run() {
+					try {
+						FCMNotification.sendPayment(getServletContext(), DuploMap.convert(new Gson().toJson(tripRequestNotification)), un);
+					} catch (JsonSyntaxException | FirebaseMessagingException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+				}
+			}.run();
+			
+			
 			PrintWriter out = response.getWriter();
 			out.print(new Gson().toJson(rest));
 		} else if(status.contains("driverRating")) {
@@ -120,6 +219,7 @@ public class TripStateChangeController extends HttpServlet {
 		TripRequestNotification tripRequestNotification = new GooglePlacesServices().getFromAndTo(invoice.getFrom_place(), invoice.getTo_place());
 		tripRequestNotification.setTripId(String.valueOf(invoice.getId()));
 		tripRequestNotification.setDriverId(invoice.getDriver_username());
+		tripRequestNotification.setCustomerId(invoice.getRider_username());
 		tripRequestNotification.setTotal_fare(invoice.getCost());
 		return tripRequestNotification;
 	}

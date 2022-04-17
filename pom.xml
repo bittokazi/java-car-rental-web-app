@@ -59,6 +59,17 @@
       <artifactId>postgresql</artifactId>
       <version>9.1-901-1.jdbc4</version>
   </dependency>
+<!-- https://mvnrepository.com/artifact/com.cloudinary/cloudinary-taglib -->
+	<dependency>
+	    <groupId>com.cloudinary</groupId>
+	    <artifactId>cloudinary-taglib</artifactId>
+	    <version>1.4.2</version>
+	</dependency>
+	<dependency>
+	    <groupId>com.cloudinary</groupId>
+	    <artifactId>cloudinary-http44</artifactId>
+	    <version>1.4.2</version>
+	</dependency>
   </dependencies>
   <build>
     <finalName>ROOT</finalName>

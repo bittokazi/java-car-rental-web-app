@@ -9,19 +9,19 @@ import java.util.ArrayList;
 public class NotificationAdapter {
 	public void insert(Notification nf)
 	{
-		String sql = "INSERT INTO notification VALUES (null, '"+nf.getUsername()+"', '"+nf.getDescription()+"', '"+nf.getDate()+"', '"+nf.getTime()+"')";
-		DataAccess da = new DataAccess();
+		String sql = "INSERT INTO notification VALUES (DEFAULT, '"+nf.getUsername()+"', '"+nf.getDescription()+"', '"+nf.getDate()+"', '"+nf.getTime()+"')";
+		DataAccess da = DataAccess.Singleton();
 		da.executeQuery(sql);
 	}
 	public void delete(int id)
 	{
 		String sql = "DELETE FROM notification WHERE id="+id;
-		DataAccess da = new DataAccess();
+		DataAccess da = DataAccess.Singleton();
 		da.executeQuery(sql);
 	}
 	public ArrayList<Notification> select_query(String sql)
 	{
-		DataAccess da = new DataAccess();
+		DataAccess da = DataAccess.Singleton();
 		ResultSet rs = da.getResultSet(sql);
 		ArrayList<Notification> nf = new ArrayList<Notification>();
 		try {
@@ -37,7 +37,7 @@ public class NotificationAdapter {
 				nf.add(n);
 			}
 			return nf;
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

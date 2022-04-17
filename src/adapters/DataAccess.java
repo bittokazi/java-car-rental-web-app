@@ -4,10 +4,13 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.Statement;
+import java.sql.Connection;
+import java.sql.Statement;
 
 public class DataAccess {
+	
+	private static DataAccess single_instance=null; 
+	
 	private String host = System.getenv("OPENSHIFT_MYSQL_DB_HOST");
 	private int port = Integer.parseInt(System.getenv("OPENSHIFT_MYSQL_DB_PORT"));
 	private String database = System.getenv("OPENSHIFT_MYSQL_DB_NAME");
@@ -18,7 +21,7 @@ public class DataAccess {
 	private Connection connection;
 	private Statement statement;
 
-	public DataAccess() {
+	private DataAccess() {
 		this.connectionString = "jdbc:postgresql://" + this.host + ":" + this.port + "/" + this.database;
 		try {
 			Class.forName("org.postgresql.Driver");
@@ -36,7 +39,7 @@ public class DataAccess {
 		}
 	}
 
-	public DataAccess(String host, int port, String database, String username, String password) {
+	private DataAccess(String host, int port, String database, String username, String password) {
 		this.host = host;
 		this.port = port;
 		this.database = database;
@@ -59,6 +62,16 @@ public class DataAccess {
 			ex.printStackTrace();
 		}
 	}
+	
+	public static DataAccess Singleton() 
+    { 
+        // To ensure only one instance is created 
+        if (single_instance == null) 
+        { 
+            single_instance = new DataAccess(); 
+        } 
+        return single_instance; 
+    }
 
 	public ResultSet getResultSet(String sql) {
 		try {
@@ -76,7 +89,9 @@ public class DataAccess {
 
 	public int executeQuery(String sql) {
 		try {
-			return this.statement.executeUpdate(sql);
+			ResultSet rs = this.statement.executeQuery(sql);
+			rs.next();
+			return rs.getInt(1);
 		}
 		catch(SQLException ex) {
 			ex.printStackTrace();

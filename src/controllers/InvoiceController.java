@@ -3,6 +3,7 @@ package controllers;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
@@ -18,6 +19,7 @@ import com.google.gson.JsonSyntaxException;
 import adapters.InvoiceAdapter;
 import adapters.UserAdapter;
 import models.Invoice;
+import models.TripItem;
 import models.TripRequestNotification;
 import models.User;
 import util.DuploMap;
@@ -76,25 +78,42 @@ public class InvoiceController extends HttpServlet {
 						
 						UserAdapter ua=new UserAdapter();
 						User user = new User();
-						user=ua.select("SELECT * FROM user WHERE username='"+ac.get_username(request)+"' ORDER BY id DESC");
+						user=ua.select("SELECT * FROM public.user WHERE username='"+ac.get_username(request)+"' ORDER BY id DESC");
 
+						TripItem tripItem = new TripItem();
+						List<Double> pup = new GooglePlacesServices().getPickupLatLng(request.getParameter("from"), request.getParameter("to"));
+						tripItem.setLatitude(pup.get(0));
+						tripItem.setLongitude(pup.get(1));
+						tripItem.setTime(System.currentTimeMillis()+900000);
+						tripItem.setUserName(ac.get_username(request));
+						TripQueue.TripList.put(String.valueOf(tripId), tripItem);
 						
-					
-						
-						TripRequestNotification tripRequestNotification = new GooglePlacesServices().getFromAndTo(request.getParameter("from"), request.getParameter("to"));
-						tripRequestNotification.setId(String.valueOf(0));
-						tripRequestNotification.setTripId(String.valueOf(tripId));
-						tripRequestNotification.setCustomerId(String.valueOf(user.getId()));
-						tripRequestNotification.setPickUpStr(request.getParameter("from"));
-						tripRequestNotification.setDestinationStr(request.getParameter("to"));
-						
-						System.out.println(new Gson().toJson(tripRequestNotification));
-						
-						try {
-							FCMNotification.sendTnotification(getServletContext(), DuploMap.convert(new Gson().toJson(tripRequestNotification)));
-						} catch (JsonSyntaxException | FirebaseMessagingException e) {
-							e.printStackTrace();
-						}
+//						TripRequestNotification tripRequestNotification = new GooglePlacesServices().getFromAndTo(request.getParameter("from"), request.getParameter("to"));
+//						tripRequestNotification.setId(String.valueOf(0));
+//						tripRequestNotification.setTripId(String.valueOf(tripId));
+//						tripRequestNotification.setCustomerId(String.valueOf(user.getUsername()));
+//						tripRequestNotification.setPickUpStr(request.getParameter("from"));
+//						tripRequestNotification.setDestinationStr(request.getParameter("to"));
+//						
+//						tripRequestNotification.setNotificationTitle("Drive Request");
+//						tripRequestNotification.setNotificationBody("You Have a new Drive Request");
+//						
+//						System.out.println(new Gson().toJson(tripRequestNotification));
+//						
+//						new Runnable() {
+//							
+//							@Override
+//							public void run() {
+//								try {
+//									FCMNotification.sendTnotification(getServletContext(), DuploMap.convert(new Gson().toJson(tripRequestNotification)));
+//								} catch (JsonSyntaxException | FirebaseMessagingException e) {
+//									e.printStackTrace();
+//								} catch (IOException e) {
+//									// TODO Auto-generated catch block
+//									e.printStackTrace();
+//								}
+//							}
+//						}.run();
 						
 						if(request.getHeader("type")!=null &&  request.getHeader("type").contains("rest")) {
 							response.setContentType("application/json");
